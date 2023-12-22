@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{muscle.name}}{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">{{ muscle.name }}</h1>
+
+    <div class="card text-center">
+        <img src="{{ url_for('static', filename=muscle.image_name) }}" 
+        class="card-img-top img-thumbnail mx-auto" style="max-width: 500px; max-height: 500px;" alt="{{ muscle.name }}">
+        <div class="card-body">
+            <p class="card-text">{{ muscle.summary }}</p>
+            <!-- Add more details as needed -->
+        </div>
+    </div>
+</div>
+{% endblock content %}
