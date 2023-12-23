@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from . import muscle
 from . import db
-from ..models import Muscle, MuscleDivision, Exercise
+from ..models import Muscle, Exercise
 from .. import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
 @muscle.context_processor
@@ -54,22 +54,57 @@ def update_muscle(id):
     return render_template("muscle/update_muscle.html", muscle=muscle, muscle_img_url=muscle_img_url)
 
 
-@muscle.route("/detail/<string:name>")
-def muscle_detail(name):
-    muscle = Muscle.query.filter_by(name=name).first()
-
-    if muscle is None:
-        abort(404)
-
-    muscle_img_url = url_for('static', filename=muscle.image_name)
-    
-    return render_template('muscle/muscle_detail.html', muscle=muscle)
-
-
-@muscle.route("/exercises/add/<string:name>")
-def add_exercise(name):
-    muscle = Muscle.query.filter_by(name=name).first()
+@muscle.route("/detail/<string:muscle>")
+def muscle_detail(muscle):
+    muscle = Muscle.query.filter_by(name=muscle).first()
+    exercises = muscle.exercises.all()
     if muscle is None:
         abort(404)
     
+    return render_template('muscle/muscle_detail.html', muscle=muscle, exercises=exercises)
+
+
+@muscle.route("/exercises/add/<string:muscle>/", methods=['GET', 'POST'])
+def create_exercise(muscle):
+    muscle = Muscle.query.filter_by(name=muscle).first()
+
+    if muscle is None:
+        abort(404)
+    # POST request.
+    if request.method == 'POST':
+        title = request.form.get('title')
+        video_link = request.form.get('video_link')
+        description = request.form.get('description')
+
+        if not title:
+            flash('Add a name to the exercise.')
+        elif not description:
+            flash("Add a description.")
+        else:
+            new_exercise = Exercise(name=title, video_link=video_link, muscle_id=muscle.id,
+                                    description=description, author_id=current_user.id,
+                                    author_name=current_user.username)
+            db.session.add(new_exercise)
+            db.session.commit()
+
+            return redirect(url_for('muscle.muscle_detail',muscle=muscle.name))
     
+    # GET Method, returns form.
+    return render_template('muscle/create_exercise.html', muscle=muscle)
+
+
+@muscle.route("/exercises/<string:muscle>/<string:name>")
+def exercise_detail(muscle, name):
+    muscle = Muscle.query.filter_by(name=muscle).first()
+
+    if muscle is None:
+        return abort(404)
+    
+    exercise = Exercise.query.filter_by(muscle=muscle, name=name).first()
+
+    if exercise:
+        return render_template('muscle/exercise_detail.html', exercise=exercise)
+    
+    return abort(404)
+
+"""Edit, and delete exercise view is missing."""

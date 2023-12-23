@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -9,6 +10,7 @@ print(basedir)
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+migrate = Migrate()
 
 DB_NAME = 'db.db'
 
@@ -32,6 +34,7 @@ def create_app():
     db.init_app(app)
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
 
     # create database if it doesnt exist.

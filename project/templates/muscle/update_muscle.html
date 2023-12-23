@@ -13,7 +13,8 @@
 
       <p>{{ muscle.image_name }}</p>
       <img src="{{muscle_img_url}}" alt="{{muscle.name}}"/>
-     
+      <br>
+      
       <label for="image">Update image</label>
       <input type="file" id="image" name="file" class="form-control" placeholder="Upload file"/>
 
@@ -23,13 +24,6 @@
       {% else %}
       <input type="textarea" id="summary" name="summary" class="form-control" placeholder="Update summary"/>
       {% endif %}
-
-      <label for="divisions">Divisions</label>
-      <ul>
-        {% for division in muscle.divisions.all() %}
-        <li>{{division}}</li>
-        {% endfor %}
-      </ul>
 
       <div align="center">
         <button class="btn btn-primary" type="submit">Update</button>

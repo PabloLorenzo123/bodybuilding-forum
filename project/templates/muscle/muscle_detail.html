@@ -3,15 +3,40 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4 text-center">{{ muscle.name }}</h1>
+    <h1 class="mb-4 text-center"> {{ muscle.name }}</a></h1>
 
     <div class="card text-center">
         <img src="{{ url_for('static', filename=muscle.image_name) }}" 
         class="card-img-top img-thumbnail mx-auto" style="max-width: 500px; max-height: 500px;" alt="{{ muscle.name }}">
         <div class="card-body">
-            <p class="card-text">{{ muscle.summary }}</p>
+            <p class="card-text">{{ muscle.description }}</p>
             <!-- Add more details as needed -->
         </div>
     </div>
+</div>
+
+<div class="container mt-2 mb-4">
+    <!-- Bottom to add exercise -->
+    <h3 class="mb-1 text-center">Exercises and tips for {{ muscle.name.lower() }} trainning</h3>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <a href="{{url_for('muscle.create_exercise', muscle=muscle.name)}}" class="btn btn-primary" role="button">
+            Upload an exercise, or advice
+        </a>
+    </div>
+    
+    <div class="list-group">
+        {% for exercise in exercises %}
+        <div class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1"> <a href="{{ url_for('muscle.exercise_detail', muscle=exercise.muscle.name, name=exercise.name) }}">{{exercise.name}}</a></h5>
+            <small>3 days ago</small>
+          </div>
+          {% if exercise.video_link %}
+          <p><a href={{exercise.video_link}}>Video tutorial</a></p>
+        {% endif %}
+          <p class="mb-1">{{ exercise.description|truncate(30) }}</p>
+          <small>And some small print.</small>
+        </div>
+        {% endfor %}
 </div>
 {% endblock content %}

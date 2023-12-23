@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{muscle.name}} - Add exercise or advice{% endblock title %}
+
+{% block content %}
+<form method="POST">
+    <div class="mt-5 mb-3 mx-auto">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" id="title" placeholder="Add the title">
+    </div>
+
+    <div class="mb-3 mx-auto">
+        <label for="video" class="form-label">Video link</label>
+        <input type="text" name="video_link" class="form-control" id="video" placeholder="Add a video link (optional)">
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock content %}

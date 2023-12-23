@@ -3,9 +3,33 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4 text-center">Muscle building bible</h1>
-</div>
+    <div class="container mt-5 mb-4">
+        <h1 class="mb-4 text-center">Muscle building wiki</h1>
+    </div>
+
+    <div class="container mb-5 text-center">
+        <h3>Arnold Schawzaneger's body</h3>
+        <p>Click on a muscle if you want to see more detail.</p>
+        <img src={{url_for('static', filename='img/arnold_front.png') }} usemap="#image_map">
+
+        <map name="image_map">
+            <area alt="biceps" title="biceps" href="muscle/detail/biceps" coords="152,158,24" shape="circle">
+            <area alt="forearm1" title="forearm1" href="muscle/detail/forearms" coords="126,143 93,167 72,162 93,110 110,88 120,68 128,72 136,84 128,108 132,132 121,131 " shape="polygon">
+            <area alt="chest" title="chest" href="muscle/detail/chest" coords="266,218 237,231 204,194 198,182 210,157 232,151 255,153 272,156 282,165 296,157 319,151 348,165 355,183 358,201 338,225 324,227 297,224 288,226 273,219 " shape="polygon">
+            <area alt="lateral_deltoid" title="lateral_deltoid" href="muscle/detail/lateral_deltoid" coords="414,197 398,212 377,208 374,182 371,156 380,154 401,166 414,188 " shape="polygon">
+            <area alt="biceps1" title="biceps1" href="muscle/detail/biceps" coords="371,205 362,212 360,225 375,265 395,281 402,271 403,258 399,229 398,212 " shape="polygon">
+            <area alt="front delt1" title="front delt1" href="muscle/details/front_delt" coords="370,151 352,169 358,191 371,201 375,203 373,204 " shape="polygon">
+            <area alt="triceps1" title="triceps1" href="muscle/detail/triceps" coords="421,204 399,214 404,266 432,277 431,229 " shape="polygon">
+            <area alt="triceps2" title="triceps2" href="muscle/detail/triceps" coords="105,192 141,210 186,207 185,190 172,180 132,181 " shape="polygon">
+            <area alt="front delt2" title="front delt2" href="muscle/detail/front_delt" coords="178,144 182,155 194,173 195,180 206,156 228,150 237,150 226,143 209,137 " shape="polygon">
+            <area alt="abs" title="abs" href="muscle/detail/abs" coords="226,232 226,275 218,315 223,330 306,333 322,323 346,270 358,251 322,234 " shape="polygon">
+            <area alt="quadriceps" title="quadriceps" href="muscle/detail/quadriceps" coords="207,366 190,432 184,479 196,533 221,557 245,549 252,547 266,509 279,479 290,491 293,527 307,559 320,557 355,552 355,517 358,474 354,427 342,380 340,371 332,366 303,373 269,411 239,389 " shape="polygon">
+            <area alt="forearm" title="forearm" href="muscle/detail/forearms" coords="410,389 404,397 383,380 392,358 393,329 392,308 398,286 399,273 413,269 431,269 438,301 425,350 " shape="polygon">
+        </map>
+
+        <img src={{url_for('static', filename='img/arnold_rear.png') }} usemap="#image_map">
+    </div>
+
 
 
 {% endblock content %}
