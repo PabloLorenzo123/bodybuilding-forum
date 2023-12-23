@@ -3,7 +3,13 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4 text-center"> {{ muscle.name }}</a></h1>
+    <h1 class="mb-4 text-center">
+      {{ muscle.name | capitalize }} 
+      {% if user.is_admin() %}
+        <h3 class="mb-4 text-center"><a href="{{ url_for('muscle.muscle_update', id=muscle.id) }}">Update Info.</a></h3>
+      {% endif %}
+    </h1>
+    
 
     <div class="card text-center">
         <img src="{{ url_for('static', filename=muscle.image_name) }}" 
@@ -18,11 +24,14 @@
 <div class="container mt-2 mb-4">
     <!-- Bottom to add exercise -->
     <h3 class="mb-1 text-center">Exercises and tips for {{ muscle.name.lower() }} trainning</h3>
-    <div class="d-grid gap-2 col-6 mx-auto">
-        <a href="{{url_for('muscle.create_exercise', muscle=muscle.name)}}" class="btn btn-primary" role="button">
-            Upload an exercise, or advice
-        </a>
-    </div>
+
+    {% if user.is_admin() %}
+      <div class="d-grid gap-2 col-6 mx-auto">
+          <a href="{{url_for('muscle.create_exercise', muscle=muscle.name)}}" class="btn btn-primary" role="button">
+              Upload an exercise, or advice
+          </a>
+      </div>
+    {% endif %}
     
     <div class="list-group">
         {% for exercise in exercises %}

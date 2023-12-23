@@ -1,12 +1,8 @@
 from flask import render_template, request, flash, redirect, url_for
-from flask_login import login_required, current_user, login_user, logout_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_required, login_user, logout_user
 from ..models import User
-from . import auth, db # this way we can use the route decorator.
-
-@auth.context_processor
-def inject_user():
-    return dict(user=current_user or None)
+from . import auth
+from .. import db
 
 @auth.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -30,12 +26,12 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             flash(f"Welcome {username}!")
-            return redirect(url_for('auth.login'))
+            login_user(new_user, remember=True)
+            return redirect(url_for('main.index'))
 
     # GET request.
     return render_template('auth/signup.html')
     
-
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
@@ -53,8 +49,8 @@ def login():
     return render_template('auth/login.html')
 
 
-@login_required
 @auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('You have been logged out.')

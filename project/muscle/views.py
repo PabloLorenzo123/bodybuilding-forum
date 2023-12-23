@@ -5,66 +5,90 @@ import os
 from werkzeug.utils import secure_filename
 
 from . import muscle
-from . import db
+from .. import db
 from ..models import Muscle, Exercise
+from ..decorators import admin_required
 from .. import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
-@muscle.context_processor
-def inject_user():
-    return dict(user=current_user or None)
+
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @muscle.route("/update/<int:id>", methods=['GET', 'POST'])
 @login_required
-def update_muscle(id):
+@admin_required
+def muscle_update(id):
     muscle = Muscle.query.get(id)
-    muscle_img_url = url_for('static', filename=muscle.image_name)
 
     if muscle is None:
         abort(404)
 
     if request.method == 'POST':
-        name = request.form.get('name')
+        name = request.form.get('name').lower()
         summary = request.form.get('summary')
+        file = request.files['file']
 
         if name:
             muscle.name = name
         if summary:
-            muscle.summary = summary
+            muscle.description = summary
 
         """This ain't working yet."""
-        if 'file' in request.files:
-            print("there's file")
-            file = request.files['file']
-            if file.filename and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(UPLOAD_FOLDER, filename))
-                muscle.image = f'img/{filename}' 
-                print("saving file")
-            else:
-                flash('Allowed image types are - png, jpg, jpeg, gif')
+        if file:
+            if 'file' in request.files:
+                print("there's file")
+                file = request.files['file']
+                if file.filename and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(UPLOAD_FOLDER, filename))
+                    muscle.image = f'img/{filename}' 
+                    print("saving file")
+                else:
+                    flash('Allowed image types are - png, jpg, jpeg, gif')
 
         # Update database.
         db.session.add(muscle)
         db.session.commit()
-        return redirect(request.url)
+        return redirect(url_for('muscle.muscle_detail', muscle=muscle.name))
     # GET method.
-    return render_template("muscle/update_muscle.html", muscle=muscle, muscle_img_url=muscle_img_url)
+    return render_template("muscle/update_muscle.html", muscle=muscle)
 
 
+"""See muscle info page"""
 @muscle.route("/detail/<string:muscle>")
 def muscle_detail(muscle):
-    muscle = Muscle.query.filter_by(name=muscle).first()
-    exercises = muscle.exercises.all()
+    muscle = Muscle.query.filter_by(name=muscle.lower()).first()
     if muscle is None:
         abort(404)
+
+    exercises = muscle.exercises.all()
     
     return render_template('muscle/muscle_detail.html', muscle=muscle, exercises=exercises)
 
 
+"""See the info of an exercise"""
+@muscle.route("/exercises/<string:muscle>/<string:name>")
+@login_required
+def exercise_detail(muscle, name):
+    muscle = Muscle.query.filter_by(name=muscle).first()
+
+    if muscle is None:
+        return abort(404)
+    
+    exercise = Exercise.query.filter_by(muscle=muscle, name=name).first()
+
+    if exercise:
+        return render_template('muscle/exercise_detail.html', exercise=exercise)
+    
+    return abort(404)
+
+
+"""Add an exercise to a muscle group."""
 @muscle.route("/exercises/add/<string:muscle>/", methods=['GET', 'POST'])
+@login_required
+@admin_required
 def create_exercise(muscle):
     muscle = Muscle.query.filter_by(name=muscle).first()
 
@@ -93,18 +117,6 @@ def create_exercise(muscle):
     return render_template('muscle/create_exercise.html', muscle=muscle)
 
 
-@muscle.route("/exercises/<string:muscle>/<string:name>")
-def exercise_detail(muscle, name):
-    muscle = Muscle.query.filter_by(name=muscle).first()
 
-    if muscle is None:
-        return abort(404)
-    
-    exercise = Exercise.query.filter_by(muscle=muscle, name=name).first()
-
-    if exercise:
-        return render_template('muscle/exercise_detail.html', exercise=exercise)
-    
-    return abort(404)
 
 """Edit, and delete exercise view is missing."""

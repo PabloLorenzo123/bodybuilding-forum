@@ -8,21 +8,25 @@
     <h3 align="center">Update muscle: {{muscle.name}} information</h3>
 
     <div class="form-group">
+
+      {% if muscle.image_name %}
+      <div class="text-center">
+        <img src="{{ url_for('static', filename=muscle.image_name )}}" class="card-img-top img-thumbnail mx-auto text-center"
+        style="max-width: 500px; max-height: 500px;" alt="{{muscle.name}}"/>
+      </div>
+      {% endif %}
+      
       <label for="name">Update name</label>
       <input type="text" id="name" name="name" class="form-control" placeholder="{{muscle.name}}"/>
-
-      <p>{{ muscle.image_name }}</p>
-      <img src="{{muscle_img_url}}" alt="{{muscle.name}}"/>
-      <br>
       
       <label for="image">Update image</label>
       <input type="file" id="image" name="file" class="form-control" placeholder="Upload file"/>
 
       <label for="summary">Update summary</label>
-      {% if muscle.summary %}
-      <input type="textarea" id="summary" name="summary" class="form-control" placeholder="{{muscle.summary}}"/>
+      {% if muscle.description %}
+      <input type="textarea" id="summary" name="summary" class="form-control" placeholder="{{muscle.description}}"/>
       {% else %}
-      <input type="textarea" id="summary" name="summary" class="form-control" placeholder="Update summary"/>
+      <input type="textarea" id="summary" name="summary" class="form-control" placeholder="Update description"/>
       {% endif %}
 
       <div align="center">

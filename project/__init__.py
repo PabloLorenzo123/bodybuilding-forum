@@ -6,18 +6,15 @@ from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-print(basedir)
-
 db = SQLAlchemy()
 login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
 migrate = Migrate()
 
 DB_NAME = 'db.db'
-
 UPLOAD_FOLDER = os.path.abspath(os.path.join(basedir, 'static/img/'))
-
-print(UPLOAD_FOLDER)
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
+ADMIN_EMAIL = 'pablo@email.com'
 
 
 
@@ -26,13 +23,13 @@ def create_app():
     # Instead of using config from an object, we define it here.
     app.config['SECRET_KEY'] = 'This is supposed to be secret.'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['ADMIN_EMAIL'] = ADMIN_EMAIL
 
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.sqlite')
     
     # Initialize third parties.
     db.init_app(app)
-    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
