@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from . import muscle
 from .. import db
-from ..models import Muscle, Exercise
+from .models import Muscle, Exercise
 from ..decorators import admin_required
 from .. import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
@@ -59,9 +59,7 @@ def muscle_update(id):
 """See muscle info page"""
 @muscle.route("/detail/<string:muscle>")
 def muscle_detail(muscle):
-    muscle = Muscle.query.filter_by(name=muscle.lower()).first()
-    if muscle is None:
-        abort(404)
+    muscle = Muscle.query.filter_by(name=muscle.lower()).first_or_404()
 
     exercises = muscle.exercises.all()
     
@@ -70,7 +68,6 @@ def muscle_detail(muscle):
 
 """See the info of an exercise"""
 @muscle.route("/exercises/<string:muscle>/<string:name>")
-@login_required
 def exercise_detail(muscle, name):
     muscle = Muscle.query.filter_by(name=muscle).first()
 

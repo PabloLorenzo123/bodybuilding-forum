@@ -3,14 +3,13 @@ from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
 from . import ADMIN_EMAIL
+from datetime import datetime
 
 
 class Permission:
-    FOLLOW = 1
+    WRITE = 1
     COMMENT = 2
-    WRITE = 4
-    MODERATE = 8
-    ADMIN = 16
+    ADMIN = 4
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -21,7 +20,7 @@ class Role(db.Model):
 
     # Relationships.
     users = db.relationship('User', backref='role', lazy='dynamic')
-
+    
     # To avoid geeting permissions == None by default.
     def __init__(self, **kwargs):
         super(Role, self).__init__(**kwargs)
@@ -31,24 +30,24 @@ class Role(db.Model):
     def add_permission(self, perm):
         if not self.has_permission(perm):
             self.permissions += perm
+
     def remove_permission(self, perm):
         if self.has_permission(perm):
             self.permissions -= perm
+
     def reset_permissions(self):
         self.permissions = 0
+
     def has_permission(self, perm):
-        return self.permissions & perm == perm
+        return self.permissions & perm == perm # Bit wise operation.
     
     """This method creates all the roles and save them in the database."""
     @staticmethod
     def insert_roles():
         roles = {
-            'User': [Permission.FOLLOW, Permission.COMMENT, Permission.WRITE],
-            'Moderator': [Permission.FOLLOW, Permission.COMMENT,
-                        Permission.WRITE, Permission.MODERATE],
-            'Administrator': [Permission.FOLLOW, Permission.COMMENT,
-            Permission.WRITE, Permission.MODERATE,
-            Permission.ADMIN],
+            'User': [Permission.COMMENT, Permission.WRITE],
+            'Administrator': [Permission.COMMENT, Permission.WRITE,
+                              Permission.ADMIN],
             }
         
         default_role = 'User'
@@ -73,12 +72,23 @@ class Role(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
+    name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow) # datetime.utcnow is missing the () at the end. This is because the default argument in db.Column() can take a function as a value. 
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+
     password_hash = db.Column(db.String(128))
+
+    # Relationships.
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -93,6 +103,12 @@ class User(UserMixin, db.Model):
     
     def is_admin(self):
         return self.can(Permission.ADMIN)
+    
+    # To keep the last visit date for all users updated, the ping() method must be called each time a request from a user is received. 
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
     
 
     @property
@@ -117,10 +133,8 @@ class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
         return False
     
-    def is_administrator(self):
+    def is_admin(self):
         return False
-
-login_manager.anonymous_user = AnonymousUser
 
 
 """Finally, Flask-Login requires the application to designate a function to be invoked
@@ -131,38 +145,4 @@ function is shown"""
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
-
-
-"""Muscle building application."""
-class Muscle(db.Model):
-    __tablename__ = 'muscles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-    image_name = db.Column(db.String(50), unique=True, nullable=True)
-    description = db.Column(db.String(200), nullable=False)
-
-    # Relationships.
-    exercises = db.relationship('Exercise', backref='muscle', lazy='dynamic')
-
-    def __repr__(self):
-        return f"{self.name}"
-
-class Exercise(db.Model):
-    __tablename__ = 'exercises'
-    id = db.Column(db.Integer, primary_key=True)
-    muscle_id = db.Column(db.Integer, db.ForeignKey('muscles.id', name='fk_exercise_muscle'))
-
-    name = db.Column(db.String(50), unique=True)
-    video_link = db.Column(db.String(250), nullable=True)
-    description = db.Column(db.String(500))
-
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    author_name = db.Column(db.String(64))
-
-    def __repr__(self):
-        return f"{self.muscle}, {self.name}"
-
-
-
-
+login_manager.anonymous_user = AnonymousUser

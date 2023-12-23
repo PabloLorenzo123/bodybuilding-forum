@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Post by {{post.author.username}} {% endblock title %}
+
+{% block header %}Post{% endblock header %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <h1 class="display-4">{{post.title}}</h1>
+        </div>
+    </div>
+
+    <!-- Post Body -->
+    <div class="row">
+        <div class="col">
+            <p class="lead">
+                {{post.body}}
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <h3>Comments</h3>
+            <!-- Add your comment section here -->
+            <!-- Example comment form -->
+            <form method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="comment">Leave a Comment</label>
+                    {{ form.text(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Comment</button>
+            </form>
+            <!-- Comments -->
+            <div class="list-group">
+            {% for comment in post.comments.all() %}
+                <div class="list-group-item list-group-item-action" aria-current="true">
+                    
+                    <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{comment.author.username}}</a></h5>
+                    <small>{{ moment(comment.timestamp).fromNow() }}</small>
+                    </div>
+        
+                    <p class="mb-1">{{ comment.text }}</p>
+                </div>
+            {% endfor %}
+            </div>
+    </div>
+
+{% endblock content %}

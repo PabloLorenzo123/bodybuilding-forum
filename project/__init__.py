@@ -1,15 +1,22 @@
+import os
+# Third parties.
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_moment import Moment
+from flask_bootstrap import Bootstrap
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
 migrate = Migrate()
+moment = Moment()
+bootstrap = Bootstrap()
+
+login_manager.login_view = 'auth.login'
+
 
 DB_NAME = 'db.db'
 UPLOAD_FOLDER = os.path.abspath(os.path.join(basedir, 'static/img/'))
@@ -32,6 +39,8 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
+    moment.init_app(app)
+    bootstrap.init_app(app)
 
 
     # create database if it doesnt exist.
@@ -41,10 +50,11 @@ def create_app():
     from .auth import auth as auth_blueprint
     from .main import main as main_blueprint
     from .muscle import muscle as muscle_blueprint
+    from .forum import forum as forum_blueprint
     app.register_blueprint(main_blueprint, url_prefix="")
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     app.register_blueprint(muscle_blueprint, url_prefix='/muscle')
-
+    app.register_blueprint(forum_blueprint, url_prefix='/forum')
     
     return app
 

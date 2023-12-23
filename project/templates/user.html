@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Bodybuilding Wiki- {{ user.username }}{% endblock %}
+
+{% block header %}
+{% if user_profile == user %}
+    Your profile
+{% else %}
+    {{ user_profile.username }}'s profile
+{% endif %}
+{% endblock header %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ user_profile.username }}</h1>
+        {% if user_profile.name or user_profile.location %}
+        <p>
+            {% if user_profile.name %}{{ user_profile.name }}{% endif %}
+            {% if user_profile.location %}
+                From <a href="http://maps.google.com/?q={{ user.location }}">
+                        {{ user_profile.location }}
+                    </a>
+            {% endif %}
+        </p>
+        {% endif %}
+        {% if user.is_admin() %}
+        <p><a href="mailto:{{ user.email }}">{{ user_profile.email }}</a></p>
+        {% endif %}
+        {% if user_profile.about_me %}<p>{{ user_profile.about_me }}</p>{% endif %}
+        <p>
+            Member since {{ moment(user_profile.member_since).format('L') }}.
+            Last seen {{ moment(user_profile.last_seen).fromNow() }}.
+        </p>
+        {% if user_profile == current_user %}
+        <a class="btn btn-default" href="{{ url_for('main.user_update') }}">Edit Profile</a>
+        {% endif %}
+        {% if user.is_admin() %}
+        <p>
+            <a class="btn btn-danger"
+            href="{{ url_for('main.edit_profile_admin', id=user.id) }}">
+            Edit Profile as admin.
+            </a>
+        </p>
+        {% endif %}
+    </div>
+
+    {% if user_profile.posts %}
+        <h3 class="text-center">Posts made by {{user_profile.username }}</h3>
+        <table class="table table-striped table-hover">
+            <thead>
+                <th scope="col">Published</th>
+                <th scope="col">Title</th>
+            </thead>
+            <tbody>
+                {% for post in user_profile.posts %}
+                <tr scope="row">
+                    <td>{{ moment(post.timestamp).fromNow() }}</td>
+                    <td>{{post.title}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

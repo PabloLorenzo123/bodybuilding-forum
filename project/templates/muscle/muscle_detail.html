@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}{{muscle.name}}{% endblock title %}
 
-{% block content %}
+{% block header %} {{ muscle.name | capitalize }}  {% endblock header %}
+{% block content %} 
 <div class="container mt-5">
     <h1 class="mb-4 text-center">
-      {{ muscle.name | capitalize }} 
+      
       {% if user.is_admin() %}
         <h3 class="mb-4 text-center"><a href="{{ url_for('muscle.muscle_update', id=muscle.id) }}">Update Info.</a></h3>
       {% endif %}
@@ -27,7 +28,7 @@
 
     {% if user.is_admin() %}
       <div class="d-grid gap-2 col-6 mx-auto">
-          <a href="{{url_for('muscle.create_exercise', muscle=muscle.name)}}" class="btn btn-primary" role="button">
+          <a href="{{url_for('muscle.create_exercise', muscle=muscle.name)}}" class="btn btn-secondary" role="button">
               Upload an exercise, or advice
           </a>
       </div>

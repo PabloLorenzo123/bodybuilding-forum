@@ -1,8 +1,16 @@
 from flask import render_template, request, flash, redirect, url_for
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, current_user, login_user, logout_user
 from ..models import User
 from . import auth
 from .. import db
+
+
+"""is typically used to register a function that will be executed before any request to the entire Flask application, """
+@auth.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.ping()
+
 
 @auth.route("/signup", methods=['GET', 'POST'])
 def signup():
