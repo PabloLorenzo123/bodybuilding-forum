@@ -58,7 +58,6 @@ def edit_profile_admin(id):
     # GET request.
     form.email.data = user.email
     form.username.data = user.username
-    form.confirmed.data = user.confirmed
     form.role.data = user.role_id
     form.name.data = user.name
     form.location.data = user.location

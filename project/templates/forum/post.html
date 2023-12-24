@@ -2,22 +2,17 @@
 
 {% block title %}Post by {{post.author.username}} {% endblock title %}
 
-{% block header %}Post{% endblock header %}
+{% block header %}{{post.title}}{% endblock header %}
 
 {% block content %}
 
-    <div class="row">
+    <div class="card">
         <div class="col">
-            <h1 class="display-4">{{post.title}}</h1>
+            <h1 class="card-header">{{post.title}}</h1>
         </div>
-    </div>
-
-    <!-- Post Body -->
-    <div class="row">
-        <div class="col">
-            <p class="lead">
-                {{post.body}}
-            </p>
+        <div class="card-body">
+            <p class="lead">Post by {{post.author.username}} </p>
+            <p class="text-body">{{post.body}}</p>
         </div>
     </div>
 

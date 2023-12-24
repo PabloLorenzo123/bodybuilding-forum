@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Search results{% endblock title %}
+
+{% block header %}Search results{% endblock header %}
+
+{% block content %}
+
+{% if len(results) > 0 %}
+<table class="table table-striped table-hover">
+    <thead class="text-center">
+        <th scope="col">Published</th>
+        <th scope="col">Title</th>
+        <th scope="col">Authors</th>
+        <th scope="col">PMID</th>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr class="text-center" scope="row">
+            <td>{{ result.date }}</td>
+            <td><a href="{{ result.url }}" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" 
+                target="_blank">{{result.title}}</a></td>
+            <td>{{result.authors}}</td>
+            <td>{{result.id}}</td>
+            
+            <td>
+                {% if result.study.result or result.study.conclusion %}
+                <a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#{{result.id}}" role="button" aria-expanded="false" aria-controls="{{result.id}}">
+                    See more detail.
+                </a>
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% if result.study.results or result.study.conclusion %}
+        <tr class="collapse" id="{{result.id}}">
+            <td class="text-justify" colspan="5">
+                <div class="card">
+                    <div class="card-header">
+                        {% if result.study.results and result.study.conclusion %}
+                        Results and conclusion {% elif result.study.results %}Results{% else %}conclusion{% endif %}
+                    </div>
+                    <div class="card-body text-sm">
+                    {% if result.study.results %}
+                      <h5 class="card-title text-center">Results</h5>
+                      <p class="card-text">{{result.study.results}}</p>
+                    {% if result.study.conclusion %}
+                      <h5 class="card-title text-center">Conclusion</h5>
+                      <p class="card-text">{{result.study.conclusion}}</p>
+                    {% endif %}
+                      <div class="text-center">
+                        <a href="{{result.url}}" class="btn btn-secondary">See the article on Pubmed for more details</a>
+                      </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>There are not results</p>
+{% endif %}
+
+{% endblock content %}

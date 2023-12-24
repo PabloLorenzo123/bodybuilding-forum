@@ -51,10 +51,12 @@ def create_app():
     from .main import main as main_blueprint
     from .muscle import muscle as muscle_blueprint
     from .forum import forum as forum_blueprint
+    from .search import search as search_blueprint
     app.register_blueprint(main_blueprint, url_prefix="")
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     app.register_blueprint(muscle_blueprint, url_prefix='/muscle')
     app.register_blueprint(forum_blueprint, url_prefix='/forum')
+    app.register_blueprint(search_blueprint, url_prefix='/search')
     
     return app
 

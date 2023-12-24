@@ -7,13 +7,9 @@ from werkzeug.utils import secure_filename
 from . import muscle
 from .. import db
 from .models import Muscle, Exercise
-from ..decorators import admin_required
+from ..models import Permission
+from ..decorators import admin_required, permission_required
 from .. import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
-
-
- 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @muscle.route("/update/<int:id>", methods=['GET', 'POST'])
@@ -34,19 +30,6 @@ def muscle_update(id):
             muscle.name = name
         if summary:
             muscle.description = summary
-
-        """This ain't working yet."""
-        if file:
-            if 'file' in request.files:
-                print("there's file")
-                file = request.files['file']
-                if file.filename and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(UPLOAD_FOLDER, filename))
-                    muscle.image = f'img/{filename}' 
-                    print("saving file")
-                else:
-                    flash('Allowed image types are - png, jpg, jpeg, gif')
 
         # Update database.
         db.session.add(muscle)
@@ -85,7 +68,7 @@ def exercise_detail(muscle, name):
 """Add an exercise to a muscle group."""
 @muscle.route("/exercises/add/<string:muscle>/", methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required(Permission.WRITE)
 def create_exercise(muscle):
     muscle = Muscle.query.filter_by(name=muscle).first()
 

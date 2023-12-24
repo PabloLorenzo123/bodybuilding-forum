@@ -4,6 +4,15 @@
 
 {% block content %}
     <div class="container text-center">
+
+        
+        <form method="get" action="{{ url_for('search.search_results') }}">
+            <p>Look for articles on PUBMED</p>
+            <input type="text"  name="q" placeholder="Ex: Volume and hypertrophy">
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
+        <br>
+
         <h3>Click on a muscle if you want to see more detail.</h3>
         <img src="{{url_for('static', filename='img/arnold_front.png') }}" usemap="#image_map1">
 
@@ -44,3 +53,5 @@
     </div>
 
 {% endblock content %}
+
+<script src="mapresizer.min.js"></script>
