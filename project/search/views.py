@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, abort
 from . import search
-from .searchf import create_table
+from .search_json import create_table
 
 
 @search.route('/', methods=['GET', 'POST'])

@@ -25,7 +25,7 @@
             <td>{{result.id}}</td>
             
             <td>
-                {% if result.study.result or result.study.conclusion %}
+                {% if result.study.result or result.study.conclusion or result.study.abstract %}
                 <a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#{{result.id}}" role="button" aria-expanded="false" aria-controls="{{result.id}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-down" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
@@ -35,20 +35,18 @@
             </td>
             
         </tr>
-        {% if result.study.results or result.study.conclusion %}
+        {% if result.study.results or result.study.conclusion or result.study.abstract %}
         <tr class="collapse" id="{{result.id}}">
             <td class="text-justify" colspan="5">
                 <div class="card">
                     <div class="card-header">
-                        {% if result.study.results and result.study.conclusion %}
-                        Results and conclusion
-                        {% elif result.study.results %}
-                        Results
-                        {% else %}
-                        conclusion
-                        {% endif %}
+                        Details of the study.
                     </div>
                     <div class="card-body text-sm">
+                    {% if result.study.abstract %}
+                        <h5 class="card-title text-center">Abstract</h5>
+                        <p class="card-text">{{result.study.abstract}}</p>
+                    {% endif %}
                     {% if result.study.results %}
                       <h5 class="card-title text-center">Results</h5>
                       <p class="card-text">{{result.study.results}}</p>
@@ -69,7 +67,7 @@
     </tbody>
 </table>
 {% else %}
-<p>There are not results</p>
+<p class="text-center">There are not results</p>
 {% endif %}
 
 {% endblock content %}
