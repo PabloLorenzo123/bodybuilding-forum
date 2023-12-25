@@ -89,6 +89,7 @@ class User(UserMixin, db.Model):
     # Relationships.
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    papers_saved = db.relationship('PaperSaved', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

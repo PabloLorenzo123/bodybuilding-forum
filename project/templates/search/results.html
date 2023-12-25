@@ -6,14 +6,17 @@
 
 {% block content %}
 
-{% if results|length > 0 %}
+{% if results %}
 <p class="text-center">Click on the titles if you want to visit the article on PubMed</p>
+<form method="POST">
 <table class="table table-hover">
     <thead class="text-center">
         <th scope="col">Published</th>
         <th scope="col">Title</th>
         <th scope="col">Authors</th>
         <th scope="col">PMID</th>
+        <th scope="col">Save</td>
+        <th scope="col">More</td>
     </thead>
     <tbody class="table-group-divider">
     {% for result in results %}
@@ -23,7 +26,15 @@
                 target="_blank">{{result.title}}</a> <a href="{{result.study.debug}}" target="_blank">Debug</a>
             <td>{{result.authors}}</td>
             <td>{{result.id}}</td>
-            
+            <td>
+                {% if result.id in papers_saved %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3"/>
+                  </svg>
+                {% else %}
+                    <input type="radio" name="pmid" value="{{result.id}}" class="form-check-input">
+                {% endif %}
+            </td>
             <td>
                 {% if result.study.result or result.study.conclusion or result.study.abstract %}
                 <a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#{{result.id}}" role="button" aria-expanded="false" aria-controls="{{result.id}}">
@@ -37,7 +48,7 @@
         </tr>
         {% if result.study.results or result.study.conclusion or result.study.abstract %}
         <tr class="collapse" id="{{result.id}}">
-            <td class="text-justify" colspan="5">
+            <td class="text-justify" colspan="6">
                 <div class="card">
                     <div class="card-header">
                         Details of the study.
@@ -66,8 +77,14 @@
     {% endfor %}
     </tbody>
 </table>
+<div class="text-center">
+    <button type="submit" class="btn btn-secondary text-center">Save selected articles</button>
+</div>
+</form>
 {% else %}
-<p class="text-center">There are not results</p>
+<div class="text-center">
+    <p class="text-center">There are not results</p>
+</div>
 {% endif %}
 
 {% endblock content %}

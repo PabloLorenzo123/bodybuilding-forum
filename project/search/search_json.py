@@ -42,7 +42,7 @@ def create_table(query):
             'sort': params['sort']
             }
     )
-    print(q)
+    
     if response.status_code == 200:
         esearch_json = response.json()
         # print(json.dumps(esearch_json, indent=2))

@@ -23,14 +23,10 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('forum.index') }}">Forum</a>
-                    </li>
-                    <li class="nav-item">
                         <div class="dropdown">
                             <a class=" nav-link btn btn-dark dropdown-toggle bg-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Muscles
                             </a>
-
                             <ul class="dropdown-menu">
                             {% for muscle in muscles %}
                               <li><a class="dropdown-item" href="{{ url_for('muscle.muscle_detail', muscle=muscle.name )}}">{{muscle.name}}</a></li>
@@ -38,15 +34,24 @@
                             </ul>
                           </div>
                     </li>
-                    {% if user.is_authenticated %}
+
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a>
+                        <a class="nav-link" href="{{ url_for('forum.index') }}">Forum</a>
                     </li>
+                    
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.user_detail', username=current_user.username) }}">
                         Profile
                         </a>
                     </li>
+
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('search.my_papers') }}">Saved articles</a>
+                    </li>
+                    
+                   
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('auth.login')}}">Log In</a>
@@ -55,6 +60,12 @@
                         <a class="nav-link" href="{{url_for('auth.signup')}}">Sign Up</a>
                     </li>
                     {% endif %}
+
+                </ul>
+                <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item justify-content-end">
+                        <a class="nav-link " href="{{url_for('auth.logout')}}">Log Out</a>
+                    </li>
                 </ul>
             </div>
         </div>
