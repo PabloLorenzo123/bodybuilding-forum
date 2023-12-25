@@ -11,17 +11,18 @@
 <h5 class="text-center"><a href="{{ url_for('auth.login') }}">Login</a>, so you can create posts.</h5>
 {% endif %}
 
-<table class="table table-striped table-hover">
-    <thead>
+<table class="table table-hover">
+    <thead class="text-center">
         <th scope="col">Published</th>
         <th scope="col">Title</th>
         <th scope="col">Author</th>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider text-center">
         {% for post in posts %}
         <tr scope="row">
             <td>{{ moment(post.timestamp).fromNow() }}</td>
-            <td><a href="{{ url_for('forum.post_read', id=post.id) }}">{{post.title}}</a></td>
+            <td><a href="{{ url_for('forum.post_read', id=post.id) }}" 
+                class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{post.title}}</a></td>
             <td>{{post.author.username}}</td>
         </tr>
         {% endfor %}

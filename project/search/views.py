@@ -10,8 +10,6 @@ def search_results():
         flash('You need to type something in the search bar.')
         return
     else:
-        try:
-            results = create_table(q)
-            return render_template('search/results.html', results=results)
-        except:
-            abort(429)
+        results = create_table(q)
+        
+        return render_template('search/results.html', results=results)
