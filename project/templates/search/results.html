@@ -22,8 +22,10 @@
     {% for result in results %}
         <tr class="text-center" scope="row">
             <td>{{ result.date }}</td>
-            <td><a href="{{ result.url }}" class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" 
-                target="_blank">{{result.title}}</a> <a href="{{result.study.debug}}" target="_blank">Debug</a>
+            <td>
+                <a href="{{ result.url }}" class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" 
+                target="_blank">{{result.title}}</a>
+            </td>
             <td>{{result.authors}}</td>
             <td>{{result.id}}</td>
             <td>
@@ -83,7 +85,7 @@
 </form>
 {% else %}
 <div class="text-center">
-    <p class="text-center">There are not results</p>
+    <p class="text-center">There are not results.</p>
 </div>
 {% endif %}
 

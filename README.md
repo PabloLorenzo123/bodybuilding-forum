@@ -9,7 +9,7 @@ This webpage also has a forum where users can discuss different topics related t
 
 The most worked on aspect of this web application is it search bar in the home page, that allows
 users to look for articles on PubMed. The program using the Eutilities API retrieve the most relevant
-articles related to what the user asked and bodybuilding. this is possible because the program filters the
+articles related to what the user asked related to bodybuilding. this is possible because the program filters the
 results by searching through a list of selected journals (Later is shown how to change this variable).
 
 ### Techstack
@@ -41,12 +41,12 @@ There's also a profile page where user can see their information, the post they'
 ![Alt text](screenshots/edit_profile.png)
 ![Alt text](screenshots/my_profile_updated.png.png)
 
-## Muscle information.
+## Muscle information
 On the homepage there's a photo of a bodybuilder which muscles are clickable if you want to know more detail about them.
 Also in the navbar there's a button that opens a menu with all the muscles registered.
 
-gift
-
+![Alt text](screenshots/home.gif)
+![Alt text](screenshots/home_muscles.png)
 When you click on a muscle you can see its description and also a list of exercises.
 ![Alt text](screenshots/chest.png)
 You can click on the exercise's title to see more details.
@@ -69,23 +69,32 @@ This is done thanks to the Eutilities Api, esearch, esummary and efect.
 
 ![Alt text](screenshots/search_bar.png)
 
+For instance if i look for 'Best volume for hypertrophy', a search results page will appear with the most relevant studies related to the topic.
+
+![Search results page](screenshots/search_result.gif)
+
+On this page we can see a table of x amount of articles retrieved, the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
+
+![Alt text](screenshots/search_results.png)
+
+If we click on more, a row is added to the table where we can see details of the article.
+
+![Alt text](screenshots/search_result_detail1.png)
+
+The details fields can vary between articles. The articles can have abstract, results, or conclusions.
+
+![Alt text](screenshots/search_result_detail2.png)
+
 ### Esearch
 Esearch looks for the ids of the articles that match the query, and we also provide in the code extra parameters. this query will be executed on the Pubmed database, and a parameters journals is added, this is very important because these journal allow the query to be contextualized to bodybuilding.
 In project/search/search_json.py in the variable selected_journals is set the journals to look for.
 
 the reason there are two files to do search is because at first i tried to do it in XML because i thought this API couldn't return JSON data, later i discovered this fact and then decided to change the code. If you want to use XML you can use the XML search file, it doesnt work as well but there's a blueprint.
 
-### Search results.
-![Alt text](screenshots/search_results.png)
-On this page we can see a table of x amount of articles retrieved, the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
-
-![Alt text](screenshots/search_result_detail.png)
-If we click on more, a row is added to the table where we can see details of the article.
-
 ### Esummary and Efecth.
-Thanks to Esmmary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
+Thanks to Esummary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
 
 ### Save article
-
+Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
 
 

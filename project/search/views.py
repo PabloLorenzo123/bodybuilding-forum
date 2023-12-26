@@ -53,7 +53,6 @@ def search_results():
             return abort(429)
         
         papers_saved = [str(paper.pmid) for paper in current_user.papers_saved]
-        print(papers_saved)
         return render_template('search/results.html', results=results, papers_saved=papers_saved)
 
 
@@ -78,5 +77,6 @@ def my_papers():
             db.session.commit()
             flash('This paper has been removed.')
             return redirect(url_for('search.my_papers'))
-    
-    return render_template('search/my_papers.html')
+    # GET request.
+    saved_articles = PaperSaved.query.filter_by(user_id=current_user.id).all()
+    return render_template('search/my_papers.html', saved_articles=saved_articles)

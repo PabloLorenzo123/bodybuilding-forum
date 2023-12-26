@@ -4,7 +4,6 @@ from xml.etree import ElementTree
 import json
 
 date_format = '%Y %b %d'
-reduce_length = False
 
 """Utilities"""
 base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
@@ -23,23 +22,31 @@ params = {
 
 # This ensures that the articles are bodybuilding related.
 selected_journals = [
-    'J Strength Cond Res', 'OR', 'Med Sci Sports Exerc', 'OR', 'Int J Sports Physiol Perform', 'OR', 'Eur J Appl Physiol', 'OR', 'Sports Med', 'OR',
-    'J Appl Physiol', 'OR', 'J Sports Sci', 'OR', 'J Sports Sci Med', 'OR', 'Strength Cond J',
+    'J Strength Cond Res',
+    'Med Sci Sports Exerc',
+    'Int J Sports Physiol Perform',
+    'Eur J Appl Physiol',
+    'Sports Med',
+    'J Appl Physiol',
+    'J Sports Sci',
+    'J Sports Sci Med',
+    'Strength Cond J',
 ]
 
+selected_journals = " OR ".join(selected_journals)
 
 """This function takes as a parameter a query, and gets to the PUBMED database and retrieve a list of the studies related to the topic."""
 def create_table(query):
-    q = f'{query} AND ({" ".join(selected_journals)}) '
+    q = f'{query} AND ({selected_journals})'
     
     response = requests.get(
         esearch_url,
         params = {
             'db': params['db'],
-            'term': query,
+            'term': q,
             'retmax': params['retmax'],
             'retmode': 'json',
-            'sort': params['sort']
+            'sort': params['sort'],
             }
     )
     
@@ -51,7 +58,6 @@ def create_table(query):
             rows.append(esummary(pmid))
         return rows
     else:
-        print(f"There's been a problem for {query}, {response.status_code}")
         raise Exception(f"There's been a problem {response.status_code}")
 
 
@@ -110,13 +116,14 @@ def esummary(pmid):
 
 """This functions gets the abstract of a PMID"""
 def get_abstract(pmid):
+    # Efect can't return JSON.
     efetch_response = requests.get(
         efetch_url,
         params = {
             'db': params['db'],
             'id': pmid
             }
-    ) # Efect can't return JSON.
+    ) 
     
     result = {'abstract': '', 'results': '', 'conclusion': '', 'debug': efetch_response.url}
 
@@ -128,8 +135,9 @@ def get_abstract(pmid):
                 continue
             elif a.attrib['Label'] == 'RESULTS':
                 # Get recursevily all its content.
-                for suba in a.itertext():
-                    result['results'] += suba
+                for sub_a in a.itertext():
+                    result['results'] += sub_a
+
             elif a.attrib['Label'] == 'CONCLUSIONS':
                 result['conclusion'] = a.text
 
@@ -138,8 +146,6 @@ def get_abstract(pmid):
         if len(abstractText) > 0:
             for a in abstractText:
                 result['abstract'] += a.text
-        else:
-            print(efetch_response.url)
 
         return result
     else:

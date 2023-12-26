@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% if user.papers_saved %}
+{% if saved_articles %}
 <p class="text-center">Click on the titles if you want to visit the article on PubMed</p>
 <form method="post">
 <table class="table table-hover">
@@ -19,7 +19,7 @@
         <th scope="col">More</td>
     </thead>
     <tbody class="table-group-divider">
-    {% for paper in user.papers_saved %}
+    {% for paper in saved_articles %}
         <tr class="text-center" scope="row">
             <td>{{paper.date.strftime('%Y-%m-%d')}}</td>
             <td><a href="{{ paper.url }}" class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" 
