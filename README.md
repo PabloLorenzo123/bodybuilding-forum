@@ -39,6 +39,12 @@ The details fields can vary between articles. The articles can have abstract, re
 
 ![Alt text](screenshots/search_result_detail2.png)
 
+### Save article
+Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
+
+![Save article](screenshots/save_article.gif)
+
+
 ### Esearch
 Esearch looks for the ids of the articles that match the query, and we also provide in the code extra parameters. this query will be executed on the Pubmed database, and a parameters journals is added, this is very important because these journal allow the query to be contextualized to bodybuilding.
 In project/search/search_json.py in the variable selected_journals is set the journals to look for.
@@ -48,8 +54,7 @@ the reason there are two files to do search is because at first i tried to do it
 ### Esummary and Efecth.
 Thanks to Esummary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
 
-### Save article
-Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
+
 
 ## Purpose
 Many fitness enthusiasts are confused by the vast amount of contradiction on social media about trainning.
