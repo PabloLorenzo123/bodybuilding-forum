@@ -17,7 +17,41 @@ This project is built on Flask a python library used for creating web applicatio
 The frontend is CSS,Html and JS, using the Bootstrap library.
 The database is SQLite.
 
-### Purpose
+## Article search
+This app has a search input field in the homepage, that allow users to get articles related to what they ask for.
+This is done thanks to the Eutilities Api, esearch, esummary and efect.
+
+![Alt text](screenshots/search_bar.png)
+
+For instance if i look for 'Best volume for hypertrophy', a search results page will appear with the most relevant studies related to the topic.
+
+![Search results page](screenshots/search_results.gif)
+
+On this page we can see a table of x amount of articles retrieved, the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
+
+![Alt text](screenshots/search_results.png)
+
+If we click on more, a row is added to the table where we can see details of the article.
+
+![Alt text](screenshots/search_result_detail1.png)
+
+The details fields can vary between articles. The articles can have abstract, results, or conclusions.
+
+![Alt text](screenshots/search_result_detail2.png)
+
+### Esearch
+Esearch looks for the ids of the articles that match the query, and we also provide in the code extra parameters. this query will be executed on the Pubmed database, and a parameters journals is added, this is very important because these journal allow the query to be contextualized to bodybuilding.
+In project/search/search_json.py in the variable selected_journals is set the journals to look for.
+
+the reason there are two files to do search is because at first i tried to do it in XML because i thought this API couldn't return JSON data, later i discovered this fact and then decided to change the code. If you want to use XML you can use the XML search file, it doesnt work as well but there's a blueprint.
+
+### Esummary and Efecth.
+Thanks to Esummary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
+
+### Save article
+Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
+
+## Purpose
 Many fitness enthusiasts are confused by the vast amount of contradiction on social media about trainning.
 This Webpage tries to make this a little bit easier, by offering education about how each muscle works and where it is located, and also providing exercises to train them. Also it helps through its search system that look for studies about the topic the user want to learn about.
 And users can discuss different topics on the Forum.
@@ -63,38 +97,6 @@ For this i used two tables one called 'posts' and other 'comments'. You can see 
 ![Alt text](screenshots/post.png)
 ![Alt text](screenshots/comment.png)
 
-## Article search
-This app has a search input field in the homepage, that allow users to get articles related to what they ask for.
-This is done thanks to the Eutilities Api, esearch, esummary and efect.
 
-![Alt text](screenshots/search_bar.png)
-
-For instance if i look for 'Best volume for hypertrophy', a search results page will appear with the most relevant studies related to the topic.
-
-![Search results page](screenshots/search_result.gif)
-
-On this page we can see a table of x amount of articles retrieved, the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
-
-![Alt text](screenshots/search_results.png)
-
-If we click on more, a row is added to the table where we can see details of the article.
-
-![Alt text](screenshots/search_result_detail1.png)
-
-The details fields can vary between articles. The articles can have abstract, results, or conclusions.
-
-![Alt text](screenshots/search_result_detail2.png)
-
-### Esearch
-Esearch looks for the ids of the articles that match the query, and we also provide in the code extra parameters. this query will be executed on the Pubmed database, and a parameters journals is added, this is very important because these journal allow the query to be contextualized to bodybuilding.
-In project/search/search_json.py in the variable selected_journals is set the journals to look for.
-
-the reason there are two files to do search is because at first i tried to do it in XML because i thought this API couldn't return JSON data, later i discovered this fact and then decided to change the code. If you want to use XML you can use the XML search file, it doesnt work as well but there's a blueprint.
-
-### Esummary and Efecth.
-Thanks to Esummary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
-
-### Save article
-Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
 
 
