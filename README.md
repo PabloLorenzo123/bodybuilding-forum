@@ -57,40 +57,40 @@ In this app is integrated a search system that look for studies about the topic 
 This app has a search input field in the homepage, that allow users to get articles related to what they ask for in the context of strength trainning.
 This is done thanks to the Eutilities Api, esearch, esummary and efect.
 
-![search bar located in the homepage](screenshots/search_bar.png)
+![search bar located in the homepage](assets/search_bar.png)
 
 For instance if i look for 'Best volume for hypertrophy', a search results page will appear with the most relevant studies related to the topic.
 
-![Search bar functioning](screenshots/search_results.gif)
+![Search bar functioning](assets/search_results.gif)
 
 On this page we can see a table of x amount of articles retrieved, if the user clicks on the title of an article he will be redirected to the article published on Pubmed.
 
 the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
 
-![Table with all the results of the search function](screenshots/search_results.png)
+![Table with all the results of the search function](assets/search_results.png)
 
 Search settings, you can change these parameters if you like. If you want to use another database that isn't PubMed of the Eutilities, retrieve the data in XML format or to retrieve more results per search with 'retmax', you can change this dictionary.
 
-![Code snippet where the parameters of the search function are defined](screenshots/search_param.png)
+![Code snippet where the parameters of the search function are defined](assets/search_param.png)
 
 If the see more button is clicked, a row is added to the table where details of the article is shown.
 
-![Details of one of the results](screenshots/search_result_detail1.png)
+![Details of one of the results](assets/search_result_detail1.png)
 
 The details fields can vary between articles. The articles can have abstract, results, or conclusions.
 
-![Details of one of the results](screenshots/search_result_detail2.png)
+![Details of one of the results](assets/search_result_detail2.png)
 
 
 ### Save article
 Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
 
-![Save article](screenshots/save_article.gif)
+![Save article](assets/save_article.gif)
 
 ### Exception handling.
 
 If a user already has an article saved, he can't save it again.
-![Alt text](screenshots/article_already_saved.png)
+![Alt text](assets/article_already_saved.png)
 
 
 ### Esearch
@@ -98,7 +98,7 @@ Esearch looks for the ids of the articles that match the query, and we also prov
 
 the list 'selected_journals' located in project/search/search_json.py is set the journals to look for.
 
-![Alt text](screenshots/selected_journals.png)
+![Alt text](assets/selected_journals.png)
 
 This is important because it creates a context, if selected journals were not defined, the user would need to be precised with his query to get the results he wants. For instance if he searchs for 'volume' volume could be in any article in PubMed that's not strentgh trainning related.
 
@@ -114,45 +114,45 @@ I used the third party flask-login to help me with the login, signup, and logout
 
 For user authentication i needed two tables, one for users and another for roles. With this i can control who has access over certain features of the application. Admins can post exercises and update muscle information, as well as update users profiles. Users can post on forums, see articles and save them.
 
-![Alt text](screenshots/login.png)
-![Alt text](screenshots/signup.png)
+![Alt text](assets/login.png)
+![Alt text](assets/signup.png)
 
 These forms handle exceptions.
 
 You can see how the 'users' and 'roles' table are defined in project/models.py users have a role, they are related to posts and related to the articles they save.
 
 There's also a profile page where user can see their information, the post they've made and edit their info.
-![Alt text](screenshots/my_profile.png)
-![Alt text](screenshots/edit_profile.png)
-![Alt text](screenshots/my_profile_updated.png)
+![Alt text](assets/my_profile.png)
+![Alt text](assets/edit_profile.png)
+![Alt text](assets/my_profile_updated.png)
 
 ## Muscle information
 On the homepage there's a photo of a bodybuilder which muscles are clickable if you want to know more detail about them. Also in the navbar there's a button that opens a menu with all the muscles registered.
 
-![Alt text](screenshots/home.gif)
+![Alt text](assets/home.gif)
 
-![Alt text](screenshots/home_muscles.png)
+![Alt text](assets/home_muscles.png)
 
 When you click on a muscle you can see its description and also a list of exercises.
 
-![Alt text](screenshots/chest.png)
+![Alt text](assets/chest.png)
 
 You can click on the exercise's title to see more details.
 
-![Alt text](screenshots/alternating%20db%20bicep%20curl.png)
+![Alt text](assets/alternating%20db%20bicep%20curl.png)
 
 If you're an admin you can add exercise to the muscle, and edit the details of the muscle.
 
-![Alt text](screenshots/muscle_admin.png)
+![Alt text](assets/muscle_admin.png)
 
 ## Forum
 This app also has a forum, where users can discuss the topics they wish. Someone needs to create a post, and other users can comment about it.
 For this i used two tables one called 'posts' and other 'comments'. You can see their definition in project/forum/models.py
 
-![Alt text](screenshots/forum.png)
-![Alt text](screenshots/create_post.png)
-![Alt text](screenshots/post.png)
-![Alt text](screenshots/comment.png)
+![Alt text](assets/forum.png)
+![Alt text](assets/create_post.png)
+![Alt text](assets/post.png)
+![Alt text](assets/comment.png)
 
 ## Application file organization.
 In the root folder we can find app.py, this is the file executed the flask application is runned. This file imports the create_app function inside project/__init__.py, and then runs the application.

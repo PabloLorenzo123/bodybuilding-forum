@@ -1,1 +1,3 @@
 .venv
+/project/database.sqlite
+video_script.txt
