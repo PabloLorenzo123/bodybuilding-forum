@@ -16,27 +16,36 @@ The most worked on aspect of this web application is it search function, this al
 
 ### Step 1: Create a virtual environment.
 `python -m venv .venv`
+
 `.venv/Scripts/Activate` to start the virtual environment.
 
 ### Step 2: Install requirements.
 `pip install -r requirements.txt`
 
 ### Step 3: Initialize database and create the tables.
+
 `flask shell`
+
 `db.create_all()`
+
 `db.commit()`
 
 ### Step 4: Create the objects neccesary.
 `flask shell`
+
 `Role.insert_roles()` This will create the roles in the database like 'user' and 'admin'.
+
 `Muscle.insert_muscles()` This will create the neccesary muscle objects.
 
 ### Step 5: Create the admin user.
 In project/__init__.py change 'ADMIN_EMAIL' to the email you want your admin to have, in this case by default is pablo@email.com.
 create an User with that email.
 `flask shell`
+
 `admin = User(name='yourname', email='your_admin_email', password='your_password')`
+
 `db.session.add(admin)`
+
 `db.session.commit()`
 
 ### Step 6: Run the application.
@@ -174,4 +183,4 @@ In the project folder is all the flask application code.
 ## Acknowledgements.
 - Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
 
-- Thanks to CS50 for the free knowledge, and for being a great course.
+- Thanks to CS50 for the free knowledge, and for being a great course.x
