@@ -87,7 +87,7 @@ Articles can be saved, so they can be later revisited. you can save one article 
 
 ![Save article](screenshots/save_article.gif)
 
-## Exception handling.
+### Exception handling.
 
 If a user already has an article saved, he can't save it again.
 ![Alt text](screenshots/article_already_saved.png)
@@ -157,19 +157,21 @@ For this i used two tables one called 'posts' and other 'comments'. You can see 
 ## Application file organization.
 In the root folder we can find app.py, this is the file executed the flask application is runned. This file imports the create_app function inside project/__init__.py, and then runs the application.
 
-In the project folder is all the flask application code. In project/__init__.py the create_app function is defined, the third parties libraries are imported and initialized. In project/models.py the User and Role database models are defined.
+In the project folder is all the flask application code.
 
-In project/search we can find everything related to the search aspect of the application, in search_json is the code the requests to the API are made and processed, in views.py we handle the GET request of the search function. The 'save article' and 'delete article' functionality is found here too. in project/search/models.py we find the database model PaperSaved that relates all the articles the user have saved.
+- In project/__init__.py the create_app function is defined, the third parties libraries are imported and initialized. In project/models.py the User and Role database models are defined.
 
-In project/muscle is defined the views and models related to the muscles functionality of the app. That is the Muscle and Exercise database models. and their views.
+- In project/search we can find everything related to the search aspect of the application, in search_json is the code the requests to the API are made and processed, in views.py we handle the GET request of the search function. The 'save article' and 'delete article' functionality is found here too. in project/search/models.py we find the database model PaperSaved that relates all the articles the user have saved.
 
-In project/forum we can find everything related to the forum aspect of the application, the database models Post and Comment and the views related to the forum.
+- In project/muscle is defined the views and models related to the muscles functionality of the app. That is the Muscle and Exercise database models. and their views.
 
-In project/main we find the views related to the user profile customization and the view for the home page.
+- In project/forum we can find everything related to the forum aspect of the application, the database models Post and Comment and the views related to the forum.
 
-In project/auth we find the views and forms related to user authentication, like login, signup and logout.
+- In project/main we find the views related to the user profile customization and the view for the home page.
+
+- In project/auth we find the views and forms related to user authentication, like login, signup and logout.
 
 ## Acknowledgements.
-Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
+- Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
 
-Thanks to CS50 for the free knowledge, and for being a great course.
+- Thanks to CS50 for the free knowledge, and for being a great course.
