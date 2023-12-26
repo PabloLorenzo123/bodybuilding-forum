@@ -9,7 +9,6 @@ from .. import db
 from .models import Muscle, Exercise
 from ..models import Permission
 from ..decorators import admin_required, permission_required
-from .. import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
 
 @muscle.route("/update/<int:id>", methods=['GET', 'POST'])
@@ -24,7 +23,6 @@ def muscle_update(id):
     if request.method == 'POST':
         name = request.form.get('name').lower()
         summary = request.form.get('summary')
-        file = request.files['file']
 
         if name:
             muscle.name = name

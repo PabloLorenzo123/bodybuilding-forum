@@ -31,7 +31,7 @@ The most worked on aspect of this web application is it search function, this al
 `Role.insert_roles()` This will create the roles in the database like 'user' and 'admin'.
 `Muscle.insert_muscles()` This will create the neccesary muscle objects.
 
-### Step 5: Create admin user.
+### Step 5: Create the admin user.
 In project/__init__.py change 'ADMIN_EMAIL' to the email you want your admin to have, in this case by default is pablo@email.com.
 create an User with that email.
 `flask shell`
@@ -57,29 +57,40 @@ In this app is integrated a search system that look for studies about the topic 
 This app has a search input field in the homepage, that allow users to get articles related to what they ask for in the context of strength trainning.
 This is done thanks to the Eutilities Api, esearch, esummary and efect.
 
-![Alt text](screenshots/search_bar.png)
+![search bar located in the homepage](screenshots/search_bar.png)
 
 For instance if i look for 'Best volume for hypertrophy', a search results page will appear with the most relevant studies related to the topic.
 
-![Search results page](screenshots/search_results.gif)
+![Search bar functioning](screenshots/search_results.gif)
 
-On this page we can see a table of x amount of articles retrieved, the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
+On this page we can see a table of x amount of articles retrieved, if the user clicks on the title of an article he will be redirected to the article published on Pubmed.
 
-![Alt text](screenshots/search_results.png)
+the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
 
-If we click on more, a row is added to the table where we can see details of the article.
+![Table with all the results of the search function](screenshots/search_results.png)
 
-![Alt text](screenshots/search_result_detail1.png)
+Search settings, you can change these parameters if you like. If you want to use another database that isn't PubMed of the Eutilities, retrieve the data in XML format or to retrieve more results per search with 'retmax', you can change this dictionary.
+
+![Code snippet where the parameters of the search function are defined](screenshots/search_param.png)
+
+If the see more button is clicked, a row is added to the table where details of the article is shown.
+
+![Details of one of the results](screenshots/search_result_detail1.png)
 
 The details fields can vary between articles. The articles can have abstract, results, or conclusions.
 
-![Alt text](screenshots/search_result_detail2.png)
+![Details of one of the results](screenshots/search_result_detail2.png)
 
 
 ### Save article
 Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
 
 ![Save article](screenshots/save_article.gif)
+
+## Exception handling.
+
+If a user already has an article saved, he can't save it again.
+![Alt text](screenshots/article_already_saved.png)
 
 
 ### Esearch
@@ -96,22 +107,19 @@ the reason there are two files to do search is because at first i tried to do it
 ### Esummary and Efecth.
 Thanks to Esummary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
 
-Efect can't retrieve data in JSON format, i had to do work with XML, using the xml.etree library.
-
+Efecth can't retrieve data in JSON format, i had to do work with XML, using the xml.etree library.
 
 ## User Authentication
 I used the third party flask-login to help me with the login, signup, and logout.
-For user authentication i needed two tables, one for users and another for roles.
-With this i can control who has access over certain features of the application.
-Admins can post exercises and update muscle information, as well as update users profiles.
-Users can post on forums, see articles and save them.
+
+For user authentication i needed two tables, one for users and another for roles. With this i can control who has access over certain features of the application. Admins can post exercises and update muscle information, as well as update users profiles. Users can post on forums, see articles and save them.
 
 ![Alt text](screenshots/login.png)
 ![Alt text](screenshots/signup.png)
 
 These forms handle exceptions.
-You can see how the 'users' and 'roles' table are defined in project/models.py
-users have a role, they are related to posts and related to the articles they save.
+
+You can see how the 'users' and 'roles' table are defined in project/models.py users have a role, they are related to posts and related to the articles they save.
 
 There's also a profile page where user can see their information, the post they've made and edit their info.
 ![Alt text](screenshots/my_profile.png)
@@ -119,8 +127,7 @@ There's also a profile page where user can see their information, the post they'
 ![Alt text](screenshots/my_profile_updated.png)
 
 ## Muscle information
-On the homepage there's a photo of a bodybuilder which muscles are clickable if you want to know more detail about them.
-Also in the navbar there's a button that opens a menu with all the muscles registered.
+On the homepage there's a photo of a bodybuilder which muscles are clickable if you want to know more detail about them. Also in the navbar there's a button that opens a menu with all the muscles registered.
 
 ![Alt text](screenshots/home.gif)
 
@@ -146,6 +153,21 @@ For this i used two tables one called 'posts' and other 'comments'. You can see 
 ![Alt text](screenshots/create_post.png)
 ![Alt text](screenshots/post.png)
 ![Alt text](screenshots/comment.png)
+
+## Application file organization.
+In the root folder we can find app.py, this is the file executed the flask application is runned. This file imports the create_app function inside project/__init__.py, and then runs the application.
+
+In the project folder is all the flask application code. In project/__init__.py the create_app function is defined, the third parties libraries are imported and initialized. In project/models.py the User and Role database models are defined.
+
+In project/search we can find everything related to the search aspect of the application, in search_json is the code the requests to the API are made and processed, in views.py we handle the GET request of the search function. The 'save article' and 'delete article' functionality is found here too. in project/search/models.py we find the database model PaperSaved that relates all the articles the user have saved.
+
+In project/muscle is defined the views and models related to the muscles functionality of the app. That is the Muscle and Exercise database models. and their views.
+
+In project/forum we can find everything related to the forum aspect of the application, the database models Post and Comment and the views related to the forum.
+
+In project/main we find the views related to the user profile customization and the view for the home page.
+
+In project/auth we find the views and forms related to user authentication, like login, signup and logout.
 
 ## Acknowledgements.
 Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
