@@ -20,7 +20,7 @@ params = {
     'sort': 'Relevance',
 }
 
-# This ensures that the articles are bodybuilding related.
+# This ensures that the articles are strentgh trainning related.
 selected_journals = [
     'J Strength Cond Res',
     'Med Sci Sports Exerc',

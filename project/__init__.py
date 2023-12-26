@@ -5,43 +5,34 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_moment import Moment
-from flask_bootstrap import Bootstrap
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
 moment = Moment()
-bootstrap = Bootstrap()
 
 login_manager.login_view = 'auth.login'
 
-
-DB_NAME = 'db.db'
-UPLOAD_FOLDER = os.path.abspath(os.path.join(basedir, 'static/img/'))
-ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
+DB_NAME = 'database.sqlite'
 ADMIN_EMAIL = 'pablo@email.com'
-
 
 
 def create_app():
     app = Flask(__name__, static_url_path='/static')
     # Instead of using config from an object, we define it here.
     app.config['SECRET_KEY'] = 'This is supposed to be secret.'
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['ADMIN_EMAIL'] = ADMIN_EMAIL
 
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.sqlite')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, DB_NAME)
     
     # Initialize third parties.
     db.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
     moment.init_app(app)
-    bootstrap.init_app(app)
-
 
     # create database if it doesnt exist.
     update_database(app)
