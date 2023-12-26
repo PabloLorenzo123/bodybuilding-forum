@@ -1,4 +1,4 @@
-# Bodybuilding Wiki
+# Bodybuilding Wiki - A web application for strentgh trainning enthusiasts.
 #### Video Demo:  <URL HERE>
 #### Description:
 This a web application that has multiple functionalities. It's aimed for bodybuilding enthusiasts.
@@ -114,9 +114,9 @@ You can see how the 'users' and 'roles' table are defined in project/models.py
 users have a role, they are related to posts and related to the articles they save.
 
 There's also a profile page where user can see their information, the post they've made and edit their info.
-![Alt text](screenshots/my_profile.png.png)
+![Alt text](screenshots/my_profile.png)
 ![Alt text](screenshots/edit_profile.png)
-![Alt text](screenshots/my_profile_updated.png.png)
+![Alt text](screenshots/my_profile_updated.png)
 
 ## Muscle information
 On the homepage there's a photo of a bodybuilder which muscles are clickable if you want to know more detail about them.
@@ -125,6 +125,7 @@ Also in the navbar there's a button that opens a menu with all the muscles regis
 ![Alt text](screenshots/home.gif)
 
 ![Alt text](screenshots/home_muscles.png)
+
 When you click on a muscle you can see its description and also a list of exercises.
 
 ![Alt text](screenshots/chest.png)
@@ -134,7 +135,8 @@ You can click on the exercise's title to see more details.
 ![Alt text](screenshots/alternating%20db%20bicep%20curl.png)
 
 If you're an admin you can add exercise to the muscle, and edit the details of the muscle.
-![Alt text](screenshots/muscle_admin.png.png)
+
+![Alt text](screenshots/muscle_admin.png)
 
 ## Forum
 This app also has a forum, where users can discuss the topics they wish. Someone needs to create a post, and other users can comment about it.
@@ -145,3 +147,7 @@ For this i used two tables one called 'posts' and other 'comments'. You can see 
 ![Alt text](screenshots/post.png)
 ![Alt text](screenshots/comment.png)
 
+## Acknowledgements.
+Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
+
+Thanks to CS50 for the free knowledge, and for being a great course.
