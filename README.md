@@ -11,3 +11,81 @@ The most worked on aspect of this web application is it search bar in the home p
 users to look for articles on PubMed. The program using the Eutilities API retrieve the most relevant
 articles related to what the user asked and bodybuilding. this is possible because the program filters the
 results by searching through a list of selected journals (Later is shown how to change this variable).
+
+### Techstack
+This project is built on Flask a python library used for creating web applications.
+The frontend is CSS,Html and JS, using the Bootstrap library.
+The database is SQLite.
+
+### Purpose
+Many fitness enthusiasts are confused by the vast amount of contradiction on social media about trainning.
+This Webpage tries to make this a little bit easier, by offering education about how each muscle works and where it is located, and also providing exercises to train them. Also it helps through its search system that look for studies about the topic the user want to learn about.
+And users can discuss different topics on the Forum.
+
+## User Authentication
+I used the third party flask-login to help me with the login, signup, and logout.
+For user authentication i needed two tables, one for users and another for roles.
+With this i can control who has access over certain features of the application.
+Admins can post exercises and update muscle information, as well as update users profiles.
+Users can post on forums, see articles and save them.
+
+![Alt text](screenshots/login.png)
+![Alt text](screenshots/signup.png)
+
+These forms handle exceptions.
+You can see how the 'users' and 'roles' table are defined in project/models.py
+users have a role, they are related to posts and related to the articles they save.
+
+There's also a profile page where user can see their information, the post they've made and edit their info.
+![Alt text](screenshots/my_profile.png.png)
+![Alt text](screenshots/edit_profile.png)
+![Alt text](screenshots/my_profile_updated.png.png)
+
+## Muscle information.
+On the homepage there's a photo of a bodybuilder which muscles are clickable if you want to know more detail about them.
+Also in the navbar there's a button that opens a menu with all the muscles registered.
+
+gift
+
+When you click on a muscle you can see its description and also a list of exercises.
+![Alt text](screenshots/chest.png)
+You can click on the exercise's title to see more details.
+![Alt text](screenshots/alternating%20db%20bicep%20curl.png)
+If you're an admin you can add exercise to the muscle, and edit the details of the muscle.
+![Alt text](screenshots/muscle_admin.png.png)
+
+## Forum
+This app also has a forum, where users can discuss the topics they wish. Someone needs to create a post, and other users can comment about it.
+For this i used two tables one called 'posts' and other 'comments'. You can see their definition in project/forum/models.py
+
+![Alt text](screenshots/forum.png)
+![Alt text](screenshots/create_post.png)
+![Alt text](screenshots/post.png)
+![Alt text](screenshots/comment.png)
+
+## Article search
+This app has a search input field in the homepage, that allow users to get articles related to what they ask for.
+This is done thanks to the Eutilities Api, esearch, esummary and efect.
+
+![Alt text](screenshots/search_bar.png)
+
+### Esearch
+Esearch looks for the ids of the articles that match the query, and we also provide in the code extra parameters. this query will be executed on the Pubmed database, and a parameters journals is added, this is very important because these journal allow the query to be contextualized to bodybuilding.
+In project/search/search_json.py in the variable selected_journals is set the journals to look for.
+
+the reason there are two files to do search is because at first i tried to do it in XML because i thought this API couldn't return JSON data, later i discovered this fact and then decided to change the code. If you want to use XML you can use the XML search file, it doesnt work as well but there's a blueprint.
+
+### Search results.
+![Alt text](screenshots/search_results.png)
+On this page we can see a table of x amount of articles retrieved, the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
+
+![Alt text](screenshots/search_result_detail.png)
+If we click on more, a row is added to the table where we can see details of the article.
+
+### Esummary and Efecth.
+Thanks to Esmmary and Efectch utilities we can retrieve the data of the articles found by Esearch. this allow to fill the table columns, and allow us to see detail of the article like abstract, results and conclusions.
+
+### Save article
+
+
+
