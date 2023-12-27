@@ -7,7 +7,7 @@ On this webpage users can see info about the different muscles that can be train
 
 This webpage has a forum where users can discuss different topics related to bodybuilding.
 
-The most worked on aspect of this web application is it search function, this allows users to look for articles on PubMed related to strength trainning. Using the Eutilities API retrieve the most relevant articles. this is possible because the program filters the results by searching through a list of selected journals (Later is shown how to change this variable).
+The most worked on aspect of this web application is it search function, this allows users to look for articles on PubMed related to strength trainning. Using the Eutilities API to retrieve the most relevant articles. this is possible because the program filters the results by searching through a list of selected journals (Later is shown how to change this variable).
 
 ## Installation.
 
