@@ -1,7 +1,5 @@
 from . import main
-from flask import request, render_template, redirect, url_for, flash
-from ..auth.models import User, Role
-from .. import db
+from flask import request, render_template
 
 # Home page
 @main.route("/")

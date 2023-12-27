@@ -7,7 +7,7 @@ On this webpage users can see info about the different muscles that can be train
 
 This webpage has a forum where users can discuss different topics related to bodybuilding.
 
-The most worked on aspect of this web application is it search function, this allows users to look for articles on PubMed related to strength trainning. Using the Eutilities API to retrieve the most relevant articles. this is possible because the program filters the results by searching through a list of selected journals (Later is shown how to change this variable).
+The standout feature of this web application is its search function, this allows users to look for articles on PubMed related to strength trainning. Using the Eutilities API to retrieve the most relevant articles. this is possible because the program filters the results by searching through a list of selected journals (Later is shown how to change this variable).
 
 ## Installation.
 
@@ -42,7 +42,7 @@ In project/__init__.py change 'ADMIN_EMAIL' to the email you want your admin to 
 create an User with that email.
 `flask shell`
 
-`admin = User(name='yourname', email='your_admin_email', password='your_password')`
+`admin = User(name='yourname', email='your_admin_email', password='your_password')` Remember the 'your_admin_email' needs to be defined in 'ADMIN_EMAIL' inside project/__init__.py
 
 `db.session.add(admin)`
 
@@ -56,11 +56,19 @@ This project is built on Flask a python library used for creating web applicatio
 The frontend is CSS, Html and JS, using the Bootstrap library.
 The database is SQLite.
 
-## Purpose
-Many fitness enthusiasts are confused by the vast amount of contradiction on social media about trainning.
-This Webpage tries to make this a little bit easier, by offering education about how each muscle works and where it is located, and also providing exercises to train them.
+### Third parties
+- SQLAlchemy to access the database.
+- Flask-Login to manage user authentication.
+- Flask-moment
+- Flask-migrate to make migrations to the database.
 
-In this app is integrated a search system that look for studies about the topic the user want to learn about related to strength trainning. Users can discuss different topics on the Forum.
+## Purpose
+Many fitness enthusiasts a.k.a 'gymrats' are confused by the vast amount of contradiction on social media about trainning.
+This Webpage tries to make this a little bit easier, by offering education about how each muscle works and where it is located, and also providing a list of exercises to train them.
+
+In this app is integrated a search system that look for studies about the topic the user want to learn about related to strength trainning.
+
+Users can discuss different topics on the Forum.
 
 ## Article search
 This app has a search input field in the homepage, that allow users to get articles related to what they ask for in the context of strength trainning.
@@ -74,7 +82,7 @@ For instance if i look for 'Best volume for hypertrophy', a search results page 
 
 On this page we can see a table of x amount of articles retrieved, if the user clicks on the title of an article he will be redirected to the article published on Pubmed.
 
-the amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
+the maximum amount of rows can be changed in project/search/search_json.py in the dictionary params, change the key 'retmax' to the amount of rows you want.
 
 ![Table with all the results of the search function](assets/search_results.png)
 
@@ -84,22 +92,26 @@ Search settings, you can change these parameters if you like. If you want to use
 
 If the see more button is clicked, a row is added to the table where details of the article is shown.
 
-![Details of one of the results](assets/search_result_detail1.png)
+![Details of one of the results](assets/search_result_detail2.png)
 
 The details fields can vary between articles. The articles can have abstract, results, or conclusions.
 
-![Details of one of the results](assets/search_result_detail2.png)
+![Details of one of the results](assets/search_result_detail1.png)
 
 
 ### Save article
-Articles can be saved, so they can be later revisited. you can save one article at a time, when one is saved the user's redirected to a page containning the articles saved. On this page an article can be deleted from the user's saved articles.
+Articles can be saved, so they can be later revisited. you can save multiple articles at a time, when they're saved the user's redirected to a page containning the articles saved. On this page articles can be deleted from the user's saved articles.
 
-![Save article](assets/save_article.gif)
+![Saving articles](assets/save_article.gif)
 
-### Exception handling.
+![Saved articles page](assets/saved_articles.PNG)
+
+
+#### Exception handling.
 
 If a user already has an article saved, he can't save it again.
 ![Alt text](assets/article_already_saved.png)
+
 
 
 ### Esearch
@@ -107,7 +119,7 @@ Esearch looks for the ids of the articles that match the query, and we also prov
 
 the list 'selected_journals' located in project/search/search_json.py is set the journals to look for.
 
-![Alt text](assets/selected_journals.png)
+![Selected journals variable at project/search/search.json.py](assets/selected_journals.png)
 
 This is important because it creates a context, if selected journals were not defined, the user would need to be precised with his query to get the results he wants. For instance if he searchs for 'volume' volume could be in any article in PubMed that's not strentgh trainning related.
 
@@ -163,22 +175,34 @@ For this i used two tables one called 'posts' and other 'comments'. You can see 
 ![Alt text](assets/post.png)
 ![Alt text](assets/comment.png)
 
+## Custom error pages.
+This app has custom error pages, i inspired from CS50 finance problem set. This app uses the same API but a different image.
+
+## Custom Errors.
+custom errors are created with the apology function that's defined in project/helpers.py.
+an example:
+![Custom error](assets/custom_error.png)
+
+### Error 404 example.
+![Error 4040](assets/404.png)
+
+
 ## Application file organization.
 In the root folder we can find app.py, this is the file executed the flask application is runned. This file imports the create_app function inside project/__init__.py, and then runs the application.
 
 In the project folder is all the flask application code.
 
-- In project/__init__.py the create_app function is defined, the third parties libraries are imported and initialized. In project/models.py the User and Role database models are defined.
+- In project/__init__.py the create_app function is defined, the third parties libraries are imported and initialized as well the blueprints.
 
 - In project/search we can find everything related to the search aspect of the application, in search_json is the code the requests to the API are made and processed, in views.py we handle the GET request of the search function. The 'save article' and 'delete article' functionality is found here too. in project/search/models.py we find the database model PaperSaved that relates all the articles the user have saved.
 
-- In project/muscle is defined the views and models related to the muscles functionality of the app. That is the Muscle and Exercise database models. and their views.
+- In project/muscle is defined the views and models related to the muscles functionality of the app. That is the Muscle and Exercise database models. and their related views.
 
 - In project/forum we can find everything related to the forum aspect of the application, the database models Post and Comment and the views related to the forum.
 
-- In project/main we find the views related to the user profile customization and the view for the home page.
+- In project/main we find the view for the home page.
 
-- In project/auth we find the views and forms related to user authentication, like login, signup and logout.
+- In project/auth we find the views and forms related to user authentication, like login, signup, logout, user_detail and user_update.
 
 ## Acknowledgements.
 - Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
