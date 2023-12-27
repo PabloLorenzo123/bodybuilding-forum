@@ -3,11 +3,11 @@
 {% block title %}Bodybuilding Wiki- {{ user.username }}{% endblock %}
 
 {% block header %}
-{% if user_profile == user %}
-    Your profile
-{% else %}
-    {{ user_profile.username }}'s profile
-{% endif %}
+    {% if user_profile == user %}
+        Your profile
+    {% else %}
+        {{ user_profile.username }}'s profile
+    {% endif %}
 {% endblock header %}
 
 {% block content %}
@@ -32,15 +32,7 @@
             Last seen {{ moment(user_profile.last_seen).fromNow() }}.
         </p>
         {% if user_profile == current_user %}
-        <a class="btn btn-default" href="{{ url_for('main.user_update') }}">Edit Profile</a>
-        {% endif %}
-        {% if user.is_admin() %}
-        <p>
-            <a class="btn btn-danger"
-            href="{{ url_for('main.edit_profile_admin', id=user.id) }}">
-            Edit Profile as admin.
-            </a>
-        </p>
+        <a class="btn btn-default" href="{{ url_for('auth.user_update') }}">Edit Profile</a>
         {% endif %}
     </div>
 

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}MuscleWiki - Edit Profile{% endblock %}
+
+{% block header %}
+    Edit your Profile
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Edit Your Profile</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="form" action="{{ url_for('auth.user_update') }}">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            <label for="{{form.name.id}}">Real name</label>
+                            <input id="{{form.name.id}}" name="{{form.name.name}}" type="text" value="{{form.name.data}}" class="form-control">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{form.location.id}}">Location</label>
+                            <input id="{{form.location.id}}" name="{{form.location.name}}" type="text" value="{{form.location.data}}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{form.about_me.id}}">About me</label>
+                            <textarea id="{{form.about_me.id}}" name="{{form.about_me.name}}" type="text"
+                            value="{{form.about_me.data}}" class="form-control"></textarea>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

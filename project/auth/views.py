@@ -71,7 +71,7 @@ def logout():
 @auth.route('/user/<username>')
 def user_detail(username):
     user_profile = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user_profile=user_profile)
+    return render_template('auth/user.html', user_profile=user_profile)
 
 
 @auth.route('/edit-profile', methods=['GET', 'POST'])
@@ -86,37 +86,8 @@ def user_update():
         db.session.add(current_user._get_current_object())
         db.session.commit()
         flash(f'{current_user.name} your profile has been updated.')
-        return redirect(url_for('main.user_detail', username=current_user.username))
+        return redirect(url_for('auth.user_detail', username=current_user.username))
     # GET request.
     form.name.data = current_user.name
     form.location.data = current_user.location
-    return render_template('edit_profile.html', form=form)
-
-
-@auth.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def edit_profile_admin(id):
-    user = User.query.get_or_404(id)
-    form = EditProfileAdminForm(user=user)
-    # POST request.
-    if form.validate_on_submit():
-        user.email = form.email.data
-        user.username = form.username.data
-        user.confirmed = form.confirmed.data
-        user.role = Role.query.get(form.role.data)
-        user.name = form.name.data
-        user.location = form.location.data
-        user.about_me = form.about_me.data
-        db.session.add(user)
-        db.session.commit()
-        flash('The profile has been updated.')
-        return redirect(url_for('.user', username=user.username))
-    # GET request.
-    form.email.data = user.email
-    form.username.data = user.username
-    form.role.data = user.role_id
-    form.name.data = user.name
-    form.location.data = user.location
-    form.about_me.data = user.about_me
-    return render_template('edit_profile.html', form=form, user=user)
+    return render_template('auth/edit_profile.html', form=form)

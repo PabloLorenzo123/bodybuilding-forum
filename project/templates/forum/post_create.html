@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}post{% endblock title %}
 
@@ -11,12 +10,16 @@
     <form class="form" method="post">
         {{ form.hidden_tag() }}
 
-        <label for="{{form.title.id}}">Title</label>
-        {{ form.title(class="form-control") }}
+        <div class="mb-3">
+            <label for="{{form.title.id}}">Title</label>
+            <input id="{{form.title.id}}" name="{{form.title.name}}" type="text" class="form-control">
+        </div>
 
-        <label for="{{form.title.id}}">Body</label>
-        {{ form.body(class="form-control") }}
-        <br>
+        <div class="mb-3">
+            <label for="{{form.body.id}}">Body</label>
+            <textarea id="{{form.body.id}}" name="{{form.body.name}}" type="text" class="form-control"></textarea>
+        </div>
+
         <button type="submit" class="btn btn-primary">Post</button>
     </form>
 </div>

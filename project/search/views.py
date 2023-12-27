@@ -16,32 +16,37 @@ def search_results():
             flash('You need to be logged in, to save articles.', category='error')
             return redirect(url_for('auth.login'))
         
-        pmid = request.form.get('pmid')
+        pmids = request.form.getlist('pmid')
 
-        if not pmid:
-            return apology('You need to select an article.')
+        if not pmids:
+            return apology('You need to select at least an article.')
         
-        esm = esummary(pmid)
+        for pmid in pmids:
 
-        # Check if its already saved.
-        if PaperSaved.query.filter_by(pmid=pmid, user_id=current_user.id).first():
-            return flash('You already have this article saved.')
-        else:
-            paper_saved = PaperSaved(
-                user_id=current_user.id,
-                date = esm['date'],
-                title = esm['title'],
-                authors = esm['authors'],
-                pmid = esm['id'],
-                abstract = esm['study']['abstract'],
-                results = esm['study']['results'],
-                conclusions = esm['study']['conclusion'],
+            # Check if its already saved.
+            if PaperSaved.query.filter_by(pmid=pmid, user_id=current_user.id).first():
+                return apology('You already have one of these articles saved.')
+            else:
+                esm = esummary(pmid) # We need to do this, so the user cant change the HTML code and affect the articles saved.
+                paper_saved = PaperSaved(
+                    user_id=current_user.id,
+                    date = esm['date'],
+                    title = esm['title'],
+                    authors = esm['authors'],
+                    pmid = esm['id'],
+                    abstract = esm['study']['abstract'],
+                    results = esm['study']['results'],
+                    conclusions = esm['study']['conclusion'],
                 )
-            db.session.add(paper_saved)
-            db.session.commit()
+                db.session.add(paper_saved)
+                db.session.commit()
+        
+        if len(pmids) > 1:
+            flash('The selected articles have been saved.')
+            return redirect(url_for('search.my_articles'))
+        else:
             flash('This article has been saved.')
             return redirect(url_for('search.my_articles'))
-
         
     # GET method, this show the results.
     q = request.args.get('q')
@@ -69,17 +74,22 @@ def my_articles():
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         
-        pmid = request.form.get('pmid')
+        pmids = request.form.getlist('pmid')
 
-        if not pmid:
-            return apology('You need to select before submiting.')
+        if not pmids:
+            return apology('You need to select at least one article to delete.')
         
-        paper_saved = PaperSaved.query.filter_by(pmid=pmid, user_id=current_user.id).first()
-        if paper_saved:
-            db.session.delete(paper_saved)
-            db.session.commit()
-            flash('This paper has been removed.')
-            return redirect(url_for('search.my_papers'))
+        for pmid in pmids:
+            article_saved = PaperSaved.query.filter_by(pmid=pmid, user_id=current_user.id).first()
+            if article_saved:
+                db.session.delete(article_saved)
+                db.session.commit()
+        
+        if len(pmids) > 1:
+            flash('The selected articles have been removed.')
+        else:
+            flash('This article has been removed.')
+        return redirect(url_for('search.my_articles'))
     # GET request.
     saved_articles = PaperSaved.query.filter_by(user_id=current_user.id).all()
     return render_template('search/my_articles.html', saved_articles=saved_articles)

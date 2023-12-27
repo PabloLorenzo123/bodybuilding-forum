@@ -30,14 +30,14 @@
             <td>{{result.id}}</td>
             <td>
                 {% if not user.is_authenticated %}
-                    <input disabled type="radio" title="You need to be logged in to save articles"
+                    <input disabled type="checkbox" title="You need to be logged in to save articles"
                     name="pmid" value="{{result.id}}" class="form-check-input">
                 {% elif result.id in articles_saved and user.is_authenticated %}
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3"/>
                   </svg>
                 {% else %}
-                    <input type="radio" name="pmid" value="{{result.id}}" class="form-check-input">
+                    <input type="checkbox" name="pmid" value="{{result.id}}" class="form-check-input">
                 {% endif %}
             </td>
             <td>
@@ -86,7 +86,7 @@
     {% if not user.is_authenticated %}
         <button disabled type="submit" class="btn btn-secondary text-center">Log in to save articles</button>
     {% else %}
-        <button type="submit" class="btn btn-secondary text-center">Save selected article</button>
+        <button type="submit" class="btn btn-secondary text-center">Save selected articles</button>
     {% endif %}
 </div>
 </form>

@@ -27,7 +27,7 @@
             <td>{{article.authors}}</td>
             <td>{{article.pmid}}</td>
             <td>
-                <input type="radio" name="pmid" value="{{article.pmid}}" class="form-check-input">
+                <input type="checkbox" name="pmid" value="{{article.pmid}}" class="form-check-input">
             </td>
             <td>
                 {% if article.abstract or article.conclusion or article.results %}
