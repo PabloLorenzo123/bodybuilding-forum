@@ -2,13 +2,13 @@
 
 {% block title %}{{exercise.muscle.name}} - {{exercise.name}} {% endblock title %}
 
+{% block header %}
+    {{exercise.name}}
+{% endblock header %}
+
 {% block content %}
 
-<div>
-    <h1>{{exercise.name}}
-</div>
-
-<div>
+<div class="mb-3">
     <h3><bold>Description</bold></h3>
     {% if exercise.video_link %}
         <p><a href="{{exercise.video_link}}">Video tutorial</a></p>

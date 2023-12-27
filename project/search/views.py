@@ -4,7 +4,7 @@ from . import search
 from .models import PaperSaved
 from .search_json import create_table, esummary
 from .. import db
-from ..auth.views import login
+from ..helpers import apology
 
 
 @search.route('/', methods=['GET', 'POST'])
@@ -16,10 +16,10 @@ def search_results():
             flash('You need to be logged in, to save articles.', category='error')
             return redirect(url_for('auth.login'))
         
-        pmid = str(request.form.get('pmid'))
+        pmid = request.form.get('pmid')
 
         if not pmid:
-            return flash('You need to select before submiting.')
+            return apology('You need to select an article.')
         
         esm = esummary(pmid)
 
@@ -39,41 +39,40 @@ def search_results():
                 )
             db.session.add(paper_saved)
             db.session.commit()
-            flash('This paper has been saved.')
-            return redirect(url_for('search.my_papers'))
+            flash('This article has been saved.')
+            return redirect(url_for('search.my_articles'))
 
         
     # GET method, this show the results.
     q = request.args.get('q')
     if not q:
-        flash('You need to type something in the search bar.')
-        return
+        return apology('You need to type something in the search bar.')
     else:
         try:
             results = create_table(q)
         except:
-            return abort(429)
+            abort(429)
         
-        papers_saved = []
+        articles_saved = []
         if current_user.is_authenticated:
-            papers_saved = [str(paper.pmid) for paper in current_user.papers_saved]
-        return render_template('search/results.html', results=results, papers_saved=papers_saved)
+            articles_saved = [str(paper.pmid) for paper in current_user.papers_saved]
+        return render_template('search/search_results.html', results=results, articles_saved=articles_saved)
 
 
 """This view allow users to add the study into their account."""
 @search.route('/my_saved_papers/', methods=['GET', 'POST'])
 @login_required
-def my_papers():
+def my_articles():
     # POST will handle deletion of saved articles.
     if request.method == 'POST':
         # If a user not authenticated tries to save the paper, he will be redirected to login.
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         
-        pmid = str(request.form.get('pmid'))
+        pmid = request.form.get('pmid')
 
         if not pmid:
-            return flash('You need to select before submiting.')
+            return apology('You need to select before submiting.')
         
         paper_saved = PaperSaved.query.filter_by(pmid=pmid, user_id=current_user.id).first()
         if paper_saved:
@@ -83,4 +82,4 @@ def my_papers():
             return redirect(url_for('search.my_papers'))
     # GET request.
     saved_articles = PaperSaved.query.filter_by(user_id=current_user.id).all()
-    return render_template('search/my_papers.html', saved_articles=saved_articles)
+    return render_template('search/my_articles.html', saved_articles=saved_articles)

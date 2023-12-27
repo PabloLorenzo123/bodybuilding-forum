@@ -19,19 +19,19 @@
         <th scope="col">More</td>
     </thead>
     <tbody class="table-group-divider">
-    {% for paper in saved_articles %}
+    {% for article in saved_articles %}
         <tr class="text-center" scope="row">
-            <td>{{paper.date.strftime('%Y-%m-%d')}}</td>
-            <td><a href="{{ paper.url }}" class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" 
-                target="_blank">{{paper.title}}</a>
-            <td>{{paper.authors}}</td>
-            <td>{{paper.pmid}}</td>
+            <td>{{article.date.strftime('%Y-%m-%d')}}</td>
+            <td><a href="{{ article.url }}" class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" 
+                target="_blank">{{article.title}}</a>
+            <td>{{article.authors}}</td>
+            <td>{{article.pmid}}</td>
             <td>
-                <input type="radio" name="pmid" value="{{paper.pmid}}" class="form-check-input">
+                <input type="radio" name="pmid" value="{{article.pmid}}" class="form-check-input">
             </td>
             <td>
-                {% if paper.abstract or paper.conclusion or paper.results %}
-                <a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#{{paper.id}}" role="button" aria-expanded="false" aria-controls="{{paper.id}}">
+                {% if article.abstract or article.conclusion or article.results %}
+                <a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#{{article.id}}" role="button" aria-expanded="false" aria-controls="{{article.id}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-down" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
                     </svg>
@@ -40,28 +40,28 @@
             </td>
             
         </tr>
-        {% if paper.results or paper.conclusion or paper.abstract %}
-        <tr class="collapse" id="{{paper.id}}">
+        {% if article.results or article.conclusion or article.abstract %}
+        <tr class="collapse" id="{{article.id}}">
             <td class="text-justify" colspan="6">
                 <div class="card">
                     <div class="card-header">
                         Details of the study.
                     </div>
                     <div class="card-body text-sm">
-                    {% if paper.abstract %}
+                    {% if article.abstract %}
                         <h5 class="card-title text-center">Abstract</h5>
-                        <p class="card-text">{{paper.abstract}}</p>
+                        <p class="card-text">{{article.abstract}}</p>
                     {% endif %}
-                    {% if paper.results %}
+                    {% if article.results %}
                       <h5 class="card-title text-center">Results</h5>
-                      <p class="card-text">{{paper.results}}</p>
+                      <p class="card-text">{{article.results}}</p>
                     {% endif %}
-                    {% if paper.conclusion %}
+                    {% if article.conclusion %}
                       <h5 class="card-title text-center">Conclusion</h5>
-                      <p class="card-text">{{paper.conclusion}}</p>
+                      <p class="card-text">{{article.conclusion}}</p>
                     {% endif %}
                       <div class="text-center">
-                        <a href="{{paper.url}}" class="btn btn-secondary">See the article on Pubmed for more details</a>
+                        <a href="{{article.url}}" class="btn btn-secondary">See the article on Pubmed for more details</a>
                       </div>
                     </div>
                 </div>

@@ -1,33 +1,27 @@
 from flask import render_template, request, redirect, url_for, abort, flash
 from flask_login import current_user, login_required
-import urllib.request
-import os
-from werkzeug.utils import secure_filename
 
 from . import muscle
 from .. import db
 from .models import Muscle, Exercise
-from ..models import Permission
-from ..decorators import admin_required, permission_required
+from ..auth.models import Permission
+from ..helpers import admin_required, permission_required
 
 
 @muscle.route("/update/<int:id>", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def muscle_update(id):
-    muscle = Muscle.query.get(id)
-
-    if muscle is None:
-        abort(404)
+    muscle = Muscle.query.get_or_404(id)
 
     if request.method == 'POST':
         name = request.form.get('name').lower()
-        summary = request.form.get('summary')
+        description = request.form.get('description')
 
-        if name:
+        if name and not Muscle.query.filter_by(name=name).first():
             muscle.name = name
-        if summary:
-            muscle.description = summary
+        if description:
+            muscle.description = description
 
         # Update database.
         db.session.add(muscle)

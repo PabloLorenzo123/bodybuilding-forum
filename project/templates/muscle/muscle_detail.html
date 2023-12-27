@@ -20,6 +20,7 @@
             <!-- Add more details as needed -->
         </div>
     </div>
+
 </div>
 
 <div class="container mt-2 mb-4">
@@ -38,7 +39,12 @@
         {% for exercise in exercises %}
         <div class="list-group-item list-group-item-action" aria-current="true">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1"> <a href="{{ url_for('muscle.exercise_detail', muscle=exercise.muscle.name, name=exercise.name) }}">{{exercise.name}}</a></h5>
+            <h5 class="mb-1">
+              <a class="link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover"
+              href="{{ url_for('muscle.exercise_detail', muscle=exercise.muscle.name, name=exercise.name) }}">
+              {{exercise.name}}
+              </a>
+            </h5>
           </div>
           {% if exercise.video_link %}
           <p><a href={{exercise.video_link}}>Video tutorial</a></p>

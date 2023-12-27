@@ -1,11 +1,11 @@
 from flask import Blueprint
 from flask_login import current_user
-from ..models import Permission
+from ..auth.models import Permission
 from ..muscle.models import Muscle
 
 main = Blueprint('main', __name__)
 
-from . import views
+from . import errors, views
 
 @main.app_context_processor
 def inject_user():

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block header %}
+Error code: {{ top }}
+{% endblock header %}
+
+{% block content %}
+    <!-- https://memegen.link/ -->
+    <div class="text-center">
+        <img alt="{{ top }}" class="border img-fluid"
+        src="https://api.memegen.link/images/stop-it/Stop it/{{ bottom | urlencode }}.jpg?&width=700"
+        title="{{ top }}">
+    </div>
+{% endblock %}https://memecomplete.com/share/images/stop-it/400/type_something.jpg?token=8wr13jkqakupmb5oo6a4

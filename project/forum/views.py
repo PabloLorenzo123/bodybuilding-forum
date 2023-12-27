@@ -2,8 +2,8 @@ from flask import request, render_template, redirect, url_for, flash, redirect
 from flask_login import login_required, current_user
 from . import forum
 from .. import db
-from ..models import Permission
-from ..decorators import permission_required
+from ..auth.models import Permission
+from ..helpers import permission_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 

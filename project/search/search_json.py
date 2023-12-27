@@ -78,9 +78,11 @@ def esummary(pmid):
 
         esummary_json = response.json()
         # print(json.dumps(esummary_json, indent=2))
-
-        id = esummary_json['result']['uids'][0]
-        article = esummary_json['result'][id]
+        try:
+            id = esummary_json['result']['uids'][0]
+            article = esummary_json['result'][id]
+        except:
+            return Exception(f"Article {pmid}, doesn' exist")
 
         row = {
             'id': id,
