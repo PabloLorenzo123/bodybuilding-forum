@@ -53,7 +53,7 @@ create an User with that email.
 
 ## Techstack
 This project is built on Flask a python library used for creating web applications.
-The frontend is CSS,Html and JS, using the Bootstrap library.
+The frontend is CSS, Html and JS, using the Bootstrap library.
 The database is SQLite.
 
 ## Purpose

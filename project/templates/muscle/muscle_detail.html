@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{muscle.name}}{% endblock title %}
+{% block title %}{{muscle.name | capitalize }}{% endblock title %}
 
 {% block header %} {{ muscle.name | capitalize }}  {% endblock header %}
 {% block content %} 

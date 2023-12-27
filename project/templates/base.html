@@ -9,7 +9,7 @@
     <!-- Local stylesheet -->
     <link href="{{ url_for('static', filename='css/arnold.css' )}}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/999ca2bb93.js" crossorigin="anonymous" ></script>
-    <title>{% block title %}Bodybuilding Wiki - {% endblock %}</title>
+    <title>Bodybuilding Wiki - {% block title %} {% endblock %}</title>
   </head>
   <body>
     {% block navbar %}

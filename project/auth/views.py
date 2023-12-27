@@ -48,11 +48,12 @@ def login():
         if user is not None and user.verify_password(request.form.get('password')):
             login_user(user, remember=True)
             next = request.args.get('next')
+            print(next)
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
             flash(f"Welcome back {user.username}!")
             return redirect(next)
-        flash('Invalid username or password.')
+        flash('Invalid username or password.', category='error')
     # GET request
     return render_template('auth/login.html')
 

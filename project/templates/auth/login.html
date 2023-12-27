@@ -5,18 +5,17 @@
     
 {% block content %}
     <form class="form" method="POST">
-      <h3 align="center">Login</h3>
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="text" id="email" name="email" class="input-group form-control" placeholder="Enter Email"/>
+      <div class="mb-3 text-center">
+        <input autocomplete="false" autofocus type="text" id="email" name="email"
+        class="form-control mx-auto w-auto" placeholder="Enter Email"/>
+      </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password"/>
-        <br />
+      <div class="mb-3 text-center">
+        <input class="form-control mx-auto w-auto" type="password" id="password" name="password" class="form-control" placeholder="Enter Password"/>
+      </div>
 
-        <div class="text-center">
-          <button class="btn btn-primary" type="submit">Login</button>
-        </div>
+      <div class="text-center">
+        <button class="btn btn-primary" type="submit">Login</button>
       </div>
     </form>
 {% endblock content %}

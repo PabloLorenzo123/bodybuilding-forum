@@ -4,6 +4,7 @@ from . import search
 from .models import PaperSaved
 from .search_json import create_table, esummary
 from .. import db
+from ..auth.views import login
 
 
 @search.route('/', methods=['GET', 'POST'])
@@ -12,7 +13,8 @@ def search_results():
     if request.method == 'POST':
         # If a user not authenticated tries to save the paper, he will be redirected to login.
         if not current_user.is_authenticated:
-            return redirect(url_for('main.login'))
+            flash('You need to be logged in, to save articles.', category='error')
+            return redirect(url_for('auth.login'))
         
         pmid = str(request.form.get('pmid'))
 
@@ -52,7 +54,9 @@ def search_results():
         except:
             return abort(429)
         
-        papers_saved = [str(paper.pmid) for paper in current_user.papers_saved]
+        papers_saved = []
+        if current_user.is_authenticated:
+            papers_saved = [str(paper.pmid) for paper in current_user.papers_saved]
         return render_template('search/results.html', results=results, papers_saved=papers_saved)
 
 
@@ -64,7 +68,7 @@ def my_papers():
     if request.method == 'POST':
         # If a user not authenticated tries to save the paper, he will be redirected to login.
         if not current_user.is_authenticated:
-            return redirect(url_for('main.login'))
+            return redirect(url_for('auth.login'))
         
         pmid = str(request.form.get('pmid'))
 
