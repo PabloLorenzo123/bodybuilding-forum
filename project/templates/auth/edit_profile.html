@@ -19,18 +19,20 @@
                         {{ form.hidden_tag() }}
                         <div class="mb-3">
                             <label for="{{form.name.id}}">Real name</label>
-                            <input id="{{form.name.id}}" name="{{form.name.name}}" type="text" value="{{form.name.data}}" class="form-control">
+                            <input id="{{form.name.id}}" name="{{form.name.name}}" type="text"
+                            {% if form.name.data %} value="{{form.name.data}}" {% endif %} class="form-control">
                         </div>
                         
                         <div class="mb-3">
                             <label for="{{form.location.id}}">Location</label>
-                            <input id="{{form.location.id}}" name="{{form.location.name}}" type="text" value="{{form.location.data}}" class="form-control">
+                            <input id="{{form.location.id}}" name="{{form.location.name}}" type="text" 
+                            {% if form.location.data %} value="{{form.location.data}}" {% endif %} class="form-control">
                         </div>
 
                         <div class="mb-3">
                             <label for="{{form.about_me.id}}">About me</label>
                             <textarea id="{{form.about_me.id}}" name="{{form.about_me.name}}" type="text"
-                            value="{{form.about_me.data}}" class="form-control"></textarea>
+                            {% if form.about_me.data %} value="{{form.about_me.data}}" {% endif %} class="form-control"></textarea>
 
                         </div>
 

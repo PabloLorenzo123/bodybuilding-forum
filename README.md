@@ -1,5 +1,5 @@
 # Bodybuilding Wiki - A web application for strentgh trainning enthusiasts.
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://www.youtube.com/watch?v=6CQQMR4I2rg
 #### Description:
 This a web application that has multiple functionalities. It's aimed for bodybuilding enthusiasts.
 
@@ -178,9 +178,10 @@ For this i used two tables one called 'posts' and other 'comments'. You can see 
 ## Custom error pages.
 This app has custom error pages, i inspired from CS50 finance problem set. This app uses the same API but a different image.
 
-## Custom Errors.
+### Custom Errors.
 custom errors are created with the apology function that's defined in project/helpers.py.
 an example:
+
 ![Custom error](assets/custom_error.png)
 
 ### Error 404 example.
@@ -207,4 +208,4 @@ In the project folder is all the flask application code.
 ## Acknowledgements.
 - Thanks to Miguel Grinberg, author of the book Flask Web development - Developing web applications with python 2nd Edition. This book gave me a foundation on Flask that helped me create this project. I also got inspired by his way to structura an application and the design of the 'roles' and 'users' tables.
 
-- Thanks to CS50 for the free knowledge, and for being a great course.x
+- Thanks to CS50 for the free knowledge, and for being a great course.

@@ -87,9 +87,9 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
 
     # Relationships.
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-    comments = db.relationship('Comment', backref='author', lazy='dynamic')
-    papers_saved = db.relationship('PaperSaved', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic', cascade='all, delete-orphan')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic', cascade='all, delete-orphan')
+    papers_saved = db.relationship('PaperSaved', lazy='dynamic', cascade='all, delete-orphan')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

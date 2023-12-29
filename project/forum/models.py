@@ -11,7 +11,7 @@ class Post(db.Model):
  author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
  # Relationships.
- comments = db.Relationship('Comment', backref='post', lazy='dynamic')
+ comments = db.Relationship('Comment', backref='post', lazy='dynamic', cascade='all, delete-orphan')
 
 class Comment(db.Model):
  __tablename__ = 'comments'

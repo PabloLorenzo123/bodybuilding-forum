@@ -36,7 +36,7 @@
         {% endif %}
     </div>
 
-    {% if user_profile.posts %}
+    {% if user_profile.posts.all() %}
         <h3 class="text-center">Posts made by {{user_profile.username }}</h3>
         <table class="table table-striped table-hover">
             <thead>
