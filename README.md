@@ -1,4 +1,4 @@
-# Bodybuilding Wiki - A web application for strentgh training enthusiasts.
+# Bodybuilding Forum - A web application for strentgh training enthusiasts.
 #### Video Demo:  https://www.youtube.com/watch?v=6CQQMR4I2rg
 #### Description:
 This a web application that has multiple functionalities. It's aimed for bodybuilding enthusiasts.
